@@ -1,9 +1,11 @@
+/* jshint unused: true */
+
 window.addEventListener('load', init, false);
 
 function init() {
     // i18n of text strings
     $('extName').innerHTML = chrome.i18n.getMessage('extName');
-    $('version').innerHTML = chrome.app.getDetails().version // undocumented method!
+    $('version').innerHTML = chrome.app.getDetails().version; // undocumented method!
     $('options').innerHTML = chrome.i18n.getMessage('options');
     $('general').innerHTML = chrome.i18n.getMessage('general');
     $('optionClickNewTab').innerHTML = chrome.i18n.getMessage('optionClickNewTab');
@@ -18,10 +20,8 @@ function init() {
     $('customIconText').innerHTML = chrome.i18n.getMessage('customIconText');
     $('resetSettings').innerHTML = chrome.i18n.getMessage('resetSettings');
     var extName = chrome.i18n.getMessage('extName');
-    var version = chrome.i18n.getMessage('version');
     $('resetText').innerHTML = chrome.i18n.getMessage('resetText', [extName]);
     $('reset').innerHTML = chrome.i18n.getMessage('reset');
-    var linkGithubGist = '<a href="http://gist.github.com/">GitHub Gist</a>';
     var neaterEmail = '<a href="mailto:neaterbookmarks@gmail.com?body=%0d%0dSent from Neater Bookmarks Options page">neaterbookmarks@gmail.com</a>';
     $('optionsFooterText1').innerHTML = chrome.i18n.getMessage('optionsFooterText1', [neaterEmail]);
     var neaterGithub = 'GitHub: <a href="http://goo.gl/s2kVi">http://goo.gl/s2kVi</a>';
@@ -37,13 +37,9 @@ function init() {
     var neatGithub = '<a href="http://github.com/cheeaun/neat-bookmarks">Neat Bookmarks</a>';
     var linkCheeAun = '<a href="http://twitter.com/cheeaun">Lim Chee Aun</a>';
     $('optionsFooterText7').innerHTML = chrome.i18n.getMessage('optionsFooterText7', [neatGithub, linkCheeAun]);
-};
+}
 
 var _m = chrome.i18n.getMessage;
-
-var __m = function() {
-    document.write(_m.apply(this, arguments));
-};
 
 document.addEventListener('DOMContentLoaded', function() {
     document.title = _m('extName') + ' ' + _m('options');
@@ -156,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     // check if options can be saved locally
-    if (window.localStorage == null) {
+    if (window.localStorage === null) {
         alert("LocalStorage must be enabled for managing options.");
         return;
     }
@@ -165,5 +161,5 @@ document.addEventListener('DOMContentLoaded', function() {
 onerror = function() {
     chrome.extension.sendRequest({
         error: [].slice.call(arguments)
-    })
+    });
 };
