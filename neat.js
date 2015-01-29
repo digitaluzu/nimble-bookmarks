@@ -257,15 +257,14 @@ function init() {
 
     // Popup auto-height
     var resetHeight = function() {
-        var zoomLevel = localStorage.zoom ? localStorage.zoom.toInt() / 100 : 1;
         setTimeout(function() {
             var neatTree = $tree.firstElementChild;
             if (neatTree) {
-                var fullHeight = (neatTree.offsetHeight + $tree.offsetTop + 16) * zoomLevel;
+                var fullHeight = neatTree.offsetHeight + $tree.offsetTop + 8;
                 // Slide up faster than down
                 body.style.webkitTransitionDuration = (fullHeight < window.innerHeight) ? '.3s' : '.1s';
                 var maxHeight = screen.height - window.screenY - 50;
-                var height = Math.max(200, Math.min(fullHeight, maxHeight));
+                var height = Math.max(100, Math.min(fullHeight, maxHeight));
                 body.style.height = height + 'px';
                 localStorage.popupHeight = height;
             }
@@ -1048,7 +1047,6 @@ function init() {
     var draggedBookmark = null;
     var draggedOut = false;
     var canDrop = false;
-    var zoomLevel = 1;
     var bookmarkClone = $('bookmark-clone');
     var dropOverlay = $('drop-overlay');
     $tree.addEventListener('mousedown', function(e) {
@@ -1060,7 +1058,6 @@ function init() {
             e.preventDefault();
             draggedOut = false;
             draggedBookmark = el;
-            if (localStorage.zoom) zoomLevel = (localStorage.zoom.toInt() / 100);
             bookmarkClone.innerHTML = el.innerHTML;
             el.focus();
         }
@@ -1126,8 +1123,6 @@ function init() {
         if (draggedBookmark.tagName == 'SPAN' && draggedBookmarkParent.hasClass('open')) {
             draggedBookmarkParent.removeClass('open').setAttribute('aria-expanded', false);
         }
-        clientX /= zoomLevel;
-        clientY /= zoomLevel;
         if (el.tagName == 'A') {
             canDrop = true;
             bookmarkClone.style.top = clientY + 'px';
@@ -1198,7 +1193,7 @@ function init() {
         }
         var draggedBookmarkParent = draggedBookmark.parentNode;
         var draggedID = draggedBookmarkParent.id.replace('neat-tree-item-', '');
-        var clientY = (e.clientY + document.body.scrollTop) / zoomLevel;
+        var clientY = e.clientY + document.body.scrollTop;
         if (el.tagName == 'A') {
             var elRect = el.getBoundingClientRect();
             var elRectTop = elRect.top + document.body.scrollTop;
@@ -1318,49 +1313,6 @@ function init() {
     setTimeout(function() {
         body.addClass('transitional');
     }, 10);
-
-    // Zoom
-    if (localStorage.zoom) {
-        body.dataset.zoom = localStorage.zoom;
-    }
-    var zoom = function(val) {
-        if (draggedBookmark) return; // prevent zooming when drag-n-droppping
-        var dataZoom = body.dataset.zoom;
-        var currentZoom = dataZoom ? dataZoom.toInt() : 100;
-        if (val === 0) {
-            delete body.dataset.zoom;
-            localStorage.removeItem('zoom');
-        } else {
-            var z = (val > 0) ? currentZoom + 10 : currentZoom - 10;
-            z = Math.min(150, Math.max(90, z));
-            body.dataset.zoom = z;
-            localStorage.zoom = z;
-        }
-        body.addClass('dummy').removeClass('dummy'); // force redraw
-        resetHeight();
-    };
-    document.addEventListener('mousewheel', function(e) {
-        if (!e.metaKey && !e.ctrlKey) return;
-        e.preventDefault();
-        zoom(e.wheelDelta);
-    });
-    document.addEventListener('keydown', function(e) {
-        if (!e.metaKey && !e.ctrlKey) return;
-        switch (e.keyCode) {
-            case 187: // + (plus)
-                e.preventDefault();
-                zoom(1);
-                break;
-            case 189: // - (minus)
-                e.preventDefault();
-                zoom(-1);
-                break;
-            case 48: // 0 (zero)
-                e.preventDefault();
-                zoom(0);
-                break;
-        }
-    });
 
     // Fix stupid wrong offset of the page on Mac
     if (os == 'mac') {
