@@ -107,6 +107,17 @@ function init() {
         var group = (level === 0) ? 'tree' : 'group';
         var html = '<ul role="' + group + '" data-level="' + level + '">';
 
+        var getBookmarks = function(_id) {
+            chrome.bookmarks.getChildren(_id, function(children) {
+                var html = generateHTML(children, level + 1);
+                var div = document.createElement('div');
+                div.innerHTML = html;
+                var ul = div.querySelector('ul');
+                ul.inject($('neat-tree-item-' + _id));
+                div.destroy();
+            });
+        };
+
         for (var i = 0, l = data.length; i < l; i++) {
             var d = data[i];
             var children = d.children;
@@ -128,16 +139,7 @@ function init() {
                     if (children) {
                         html += generateHTML(children, level + 1);
                     } else {
-                        (function(_id) {
-                            chrome.bookmarks.getChildren(_id, function(children) {
-                                var html = generateHTML(children, level + 1);
-                                var div = document.createElement('div');
-                                div.innerHTML = html;
-                                var ul = div.querySelector('ul');
-                                ul.inject($('neat-tree-item-' + _id));
-                                div.destroy();
-                            });
-                        })(id);
+                        getBookmarks(id);
                     }
                 }
             } else {
