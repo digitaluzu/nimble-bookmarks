@@ -35,18 +35,6 @@ function init() {
     var os = (navigator.platform.toLowerCase().match(/mac|win|linux/i) || ['other'])[0];
     body.addClass(os);
 
-    // Chrome version detection
-    var version = (function() {
-        var v = {};
-        var keys = ['major', 'minor', 'build', 'patch'];
-        var matches = navigator.userAgent.match(/chrome\/([\d]+)\.([\d]+)\.([\d]+)\.([\d]+)/i);
-        if (!matches) return null;
-        matches.slice(1).forEach(function(m, i) {
-            v[keys[i]] = m.toInt();
-        });
-        return v;
-    })();
-
     // Some i18n
     $('edit-dialog-name').placeholder = _m('name');
     $('edit-dialog-url').placeholder = _m('url');
