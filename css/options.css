@@ -13,6 +13,7 @@ body{
 	font-size: 14px;
 	margin: 0;
 	padding: 2em;
+	min-width: 500px;
 	-webkit-box-shadow: inset 0 3px 5px -2px rgba(0,0,0,.1);
 }
 a{
