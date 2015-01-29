@@ -3,7 +3,7 @@ window.addEventListener('load', init, false);
 function init() {
     if (localStorage.popupHeight) document.body.style.height = localStorage.popupHeight + 'px';
     if (localStorage.popupWidth) document.body.style.width = localStorage.popupWidth + 'px';
-};
+}
 
 (function(window) {
     var document = window.document;
@@ -117,7 +117,7 @@ function init() {
     var generateHTML = function(data, level) {
         if (!level) level = 0;
         var paddingStart = 14 * level;
-        var group = (level == 0) ? 'tree' : 'group';
+        var group = (level === 0) ? 'tree' : 'group';
         var html = '<ul role="' + group + '" data-level="' + level + '">';
 
         for (var i = 0, l = data.length; i < l; i++) {
@@ -171,7 +171,7 @@ function init() {
         if (rememberState) $tree.scrollTop = localStorage.scrollTop || 0;
 
         var focusID = localStorage.focusID;
-        if (typeof focusID != 'undefined' && focusID != null) {
+        if (typeof focusID !== 'undefined' && focusID !== null) {
             var focusEl = $('neat-tree-item-' + focusID);
             if (focusEl) {
                 var oriOverflow = $tree.style.overflow;
@@ -210,7 +210,7 @@ function init() {
     }, true);
     var closeUnusedFolders = localStorage.closeUnusedFolders;
     $tree.addEventListener('click', function(e) {
-        if (e.button != 0) return;
+        if (e.button !== 0) return;
         var el = e.target;
         var tagName = el.tagName;
         if (tagName != 'SPAN') return;
@@ -265,7 +265,7 @@ function init() {
     var search = function() {
         var value = searchInput.value.trim();
         localStorage.searchQuery = value;
-        if (value == '') {
+        if (value === '') {
             prevValue = '';
             searchMode = false;
             $tree.style.display = 'block';
@@ -344,7 +344,7 @@ function init() {
                 item.dispatchEvent(event);
             }, 30);
         } else if (key == 9 && !searchMode) { // tab
-            if (typeof focusID != 'undefined' && focusID != null) {
+            if (typeof focusID !== 'undefined' && focusID !== null) {
                 var focusEl = $('neat-tree-item-' + focusID);
                 if (focusEl) {
                     e.preventDefault();
@@ -677,7 +677,7 @@ function init() {
     var noOpenBookmark = false;
     var bookmarkHandler = function(e) {
         e.preventDefault();
-        if (e.button != 0) return; // force left-click
+        if (e.button !== 0) return; // force left-click
         if (noOpenBookmark) { // flag that disables opening bookmark
             noOpenBookmark = false;
             return;
@@ -693,7 +693,11 @@ function init() {
                 if (shift) {
                     actions.openBookmarkNewWindow(url);
                 } else {
-                    leftClickNewTab ? actions.openBookmarkNewTab(url, true, true) : actions.openBookmark(url);
+                    if (leftClickNewTab) {
+                        actions.openBookmarkNewTab(url, true, true);
+                    } else {
+                        actions.openBookmark(url);
+                    }
                 }
             }
         } else if (el.tagName == 'SPAN') {
@@ -849,7 +853,7 @@ function init() {
     // On Mac, all three mouse clicks work; on Windows, middle-click doesn't work
     $bookmarkContextMenu.addEventListener('mouseup', function(e) {
         e.stopPropagation();
-        if (e.button == 0 || (os == 'mac' && e.button == 1)) bookmarkContextHandler(e);
+        if (e.button === 0 || (os == 'mac' && e.button == 1)) bookmarkContextHandler(e);
     });
     $bookmarkContextMenu.addEventListener('contextmenu', bookmarkContextHandler);
     $bookmarkContextMenu.addEventListener('click', function(e) {
@@ -893,7 +897,7 @@ function init() {
     };
     $folderContextMenu.addEventListener('mouseup', function(e) {
         e.stopPropagation();
-        if (e.button == 0 || (os == 'mac' && e.button == 1)) folderContextHandler(e);
+        if (e.button === 0 || (os == 'mac' && e.button == 1)) folderContextHandler(e);
     });
     $folderContextMenu.addEventListener('contextmenu', folderContextHandler);
     $folderContextMenu.addEventListener('click', function(e) {
@@ -941,7 +945,7 @@ function init() {
                         prevLi = Array.filter(function(li) {
                             return !!li.parentNode.offsetHeight;
                         }, lis).getLast();
-                    };
+                    }
                     prevLi.querySelector('a, span').focus();
                 } else {
                     var parentPrevLi = li.parentNode.parentNode;
@@ -1100,6 +1104,7 @@ function init() {
         switch (e.keyCode) {
             case 8: // backspace
                 if (os != 'mac') break; // somehow delete button on mac gives backspace
+                /* falls through */
             case 46: // delete
                 e.preventDefault();
                 var id = li.id.replace(/(neat\-tree|results)\-item\-/, '');
@@ -1162,11 +1167,13 @@ function init() {
                 break;
             case 32: // space
                 if (os != 'mac') break;
+                /* falls through */
             case 13: // enter
                 e.preventDefault();
                 var event = document.createEvent('MouseEvents');
                 event.initMouseEvent('mouseup', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
                 item.dispatchEvent(event);
+                /* falls through */
             case 27: // esc
                 e.preventDefault();
                 var active = body.querySelector('.active');
@@ -1197,7 +1204,7 @@ function init() {
     var bookmarkClone = $('bookmark-clone');
     var dropOverlay = $('drop-overlay');
     $tree.addEventListener('mousedown', function(e) {
-        if (e.button != 0) return;
+        if (e.button !== 0) return;
         var el = e.target;
         var elParent = el.parentNode;
         // can move any bookmarks/folders except the default root folders
@@ -1218,7 +1225,7 @@ function init() {
         scrollTree = null;
     };
     document.addEventListener('mousemove', function(e) {
-        if (e.button != 0) return;
+        if (e.button !== 0) return;
         if (!draggedBookmark) return;
         e.preventDefault();
         var el = e.target;
@@ -1245,7 +1252,7 @@ function init() {
         if (treeScrollHeight > treeOffsetHeight) { // only scroll when it's scrollable
             var treeScrollTop = $tree.scrollTop;
             if (clientY <= treeTop + scrollTreeSpot) {
-                if (treeScrollTop == 0) {
+                if (treeScrollTop === 0) {
                     stopScrollTree();
                 } else if (!scrollTree) {
                     scrollTree = setInterval(function() {
@@ -1297,13 +1304,13 @@ function init() {
             var elRectBottom = elRect.bottom + document.body.scrollTop;
             var elParent = el.parentNode;
             if (elParent.dataset.parentid != '0') {
-                if (clientY < elRectTop + elRectHeight * .3) {
+                if (clientY < elRectTop + elRectHeight * 0.3) {
                     top = elRectTop;
-                } else if (clientY > (elRectTop + elRectHeight * .7) && !elParent.hasClass('open')) {
+                } else if (clientY > (elRectTop + elRectHeight * 0.7) && !elParent.hasClass('open')) {
                     top = elRectBottom;
                 }
             }
-            if (top == null) {
+            if (top === null) {
                 dropOverlay.className = 'folder';
                 dropOverlay.style.top = elRectTop + 'px';
                 dropOverlay.style.left = '0px';
@@ -1325,7 +1332,7 @@ function init() {
         canDrop = false;
     };
     document.addEventListener('mouseup', function(e) {
-        if (e.button != 0) return;
+        if (e.button !== 0) return;
         if (!draggedBookmark) return;
         stopScrollTree();
         if (!canDrop) {
@@ -1333,7 +1340,7 @@ function init() {
             draggedOut = false;
             onDrop();
             return;
-        };
+        }
         var el = e.target;
         var elParent = el.parentNode;
         var id = elParent.id.replace('neat-tree-item-', '');
@@ -1372,9 +1379,9 @@ function init() {
                 elRectHeight = elRect.height;
             var elParent = el.parentNode;
             if (elParent.dataset.parentid != '0') {
-                if (clientY < elRectTop + elRectHeight * .3) {
+                if (clientY < elRectTop + elRectHeight * 0.3) {
                     move = 1;
-                } else if (clientY > elRectTop + elRectHeight * .7 && !elParent.hasClass('open')) {
+                } else if (clientY > elRectTop + elRectHeight * 0.7 && !elParent.hasClass('open')) {
                     move = 2;
                 }
             }
@@ -1475,7 +1482,7 @@ function init() {
         if (draggedBookmark) return; // prevent zooming when drag-n-droppping
         var dataZoom = body.dataset.zoom;
         var currentZoom = dataZoom ? dataZoom.toInt() : 100;
-        if (val == 0) {
+        if (val === 0) {
             delete body.dataset.zoom;
             localStorage.removeItem('zoom');
         } else {
@@ -1517,7 +1524,7 @@ function init() {
     if (os == 'mac') {
         setTimeout(function() {
             var top = body.scrollTop;
-            if (top != 0) body.scrollTop = 0;
+            if (top !== 0) body.scrollTop = 0;
         }, 1500);
     }
 
@@ -1531,5 +1538,5 @@ function init() {
 onerror = function() {
     chrome.extension.sendRequest({
         error: [].slice.call(arguments)
-    })
+    });
 };
