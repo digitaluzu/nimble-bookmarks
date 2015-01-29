@@ -62,12 +62,6 @@
       }
     }
   },
-  "customIcon": {
-    "message": "Custom Icon"
-  },
-  "customIconText": {
-    "message": "The icon must be 19&times;19 or it will be resized."
-  },
   "deleteEllipsis": {
     "message": "Delete..."
   },
@@ -183,14 +177,6 @@
     "message": "View issues or submit a new one: $neaterIssues$",
     "placeholders": {
       "neaterIssues": {
-        "content": "$1"
-      }
-    }
-  },
-  "optionsFooterText5": {
-    "message": "Browse custom icons: $neaterIcons$",
-    "placeholders": {
-      "neaterIcons": {
         "content": "$1"
       }
     }
