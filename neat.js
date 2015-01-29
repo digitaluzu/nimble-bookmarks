@@ -47,7 +47,6 @@ function init() {
     })();
 
     // Some i18n
-    $('search-input').placeholder = _m('searchBookmarks');
     $('edit-dialog-name').placeholder = _m('name');
     $('edit-dialog-url').placeholder = _m('url');
     $each({
@@ -256,135 +255,6 @@ function init() {
         el.focus();
     });
 
-    // Search
-    var $results = $('results');
-    var searchMode = false;
-    var searchInput = $('search-input');
-    var prevValue = '';
-
-    var search = function() {
-        var value = searchInput.value.trim();
-        localStorage.searchQuery = value;
-        if (value === '') {
-            prevValue = '';
-            searchMode = false;
-            $tree.style.display = 'block';
-            $results.style.display = 'none';
-            return;
-        }
-        if (value == prevValue) return;
-        prevValue = value;
-        searchMode = true;
-        chrome.bookmarks.search(value, function(results) {
-            var v = value.toLowerCase();
-            var vPattern = new RegExp('^' + value.escapeRegExp().replace(/\s+/g, '.*'), 'ig');
-            if (results.length > 1) {
-                results.sort(function(a, b) {
-                    var aTitle = a.title;
-                    var bTitle = b.title;
-                    var aIndexTitle = aTitle.toLowerCase().indexOf(v);
-                    var bIndexTitle = bTitle.toLowerCase().indexOf(v);
-                    if (aIndexTitle >= 0 || bIndexTitle >= 0) {
-                        if (aIndexTitle < 0) aIndexTitle = Infinity;
-                        if (bIndexTitle < 0) bIndexTitle = Infinity;
-                        return aIndexTitle - bIndexTitle;
-                    }
-                    var aTestTitle = vPattern.test(aTitle);
-                    var bTestTitle = vPattern.test(bTitle);
-                    if (aTestTitle && !bTestTitle) return -1;
-                    if (!aTestTitle && bTestTitle) return 1;
-                    return b.dateAdded - a.dateAdded;
-                });
-                results = results.slice(0, 100); // 100 is enough
-            }
-            var html = '<ul role="list">';
-            for (var i = 0, l = results.length; i < l; i++) {
-                var result = results[i];
-                var id = result.id;
-                html += '<li data-parentid="' + result.parentId + '" id="results-item-' + id + '" role="listitem">' + generateBookmarkHTML(result.title, result.url);
-            }
-            html += '</ul>';
-            $tree.style.display = 'none';
-            $results.innerHTML = html;
-            $results.style.display = 'block';
-
-            var lis = $results.querySelectorAll('li');
-            Array.forEach(function(li) {
-                var parentId = li.dataset.parentid;
-                chrome.bookmarks.get(parentId, function(node) {
-                    if (!node || !node.length) return;
-                    var a = li.querySelector('a');
-                    a.title = _m('parentFolder', node[0].title) + '\n' + a.title;
-                });
-            }, lis);
-
-            results = null;
-            vPattern = null;
-            lis = null;
-        });
-    };
-    searchInput.addEventListener('input', search);
-
-    searchInput.addEventListener('keydown', function(e) {
-        var key = e.keyCode;
-        var focusID = localStorage.focusID;
-        if (key == 40 && searchInput.value.length == searchInput.selectionEnd) { // down
-            e.preventDefault();
-            if (searchMode) {
-                $results.querySelector('ul>li:first-child a').focus();
-            } else {
-                $tree.querySelector('ul>li:first-child').querySelector('span, a').focus();
-            }
-        } else if (key == 13 && searchInput.value.length) { // enter
-            var item = $results.querySelector('ul>li:first-child a');
-            item.focus();
-            setTimeout(function() {
-                var event = document.createEvent('MouseEvents');
-                event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                item.dispatchEvent(event);
-            }, 30);
-        } else if (key == 9 && !searchMode) { // tab
-            if (typeof focusID !== 'undefined' && focusID !== null) {
-                var focusEl = $('neat-tree-item-' + focusID);
-                if (focusEl) {
-                    e.preventDefault();
-                    focusEl.firstElementChild.focus();
-                }
-            } else {
-                var bound = $tree.scrollTop;
-                var items = $tree.querySelectorAll('a, span');
-                var firstItem = Array.filter(function(item) {
-                    return !!item.parentElement.offsetHeight && ((item.offsetTop + item.offsetHeight) > bound);
-                }, items)[0];
-                if (firstItem) firstItem.focus();
-            }
-            // Pressing esc shouldn't close the popup when search field has value
-        } else if (e.keyCode == 27) { // esc
-            if (searchInput.value) {
-                e.preventDefault();
-                searchInput.value = '';
-                search();
-            } else {
-                setTimeout(window.close, 50);
-            }
-        }
-    });
-
-    searchInput.addEventListener('focus', function() {
-        body.addClass('searchFocus');
-    });
-    searchInput.addEventListener('blur', function() {
-        body.removeClass('searchFocus');
-    });
-
-    // Saved search query
-    if (rememberState && localStorage.searchQuery) {
-        searchInput.value = localStorage.searchQuery;
-        search();
-        searchInput.select();
-        searchInput.scrollLeft = 0;
-    }
-
     // Popup auto-height
     var resetHeight = function() {
         var zoomLevel = localStorage.zoom ? localStorage.zoom.toInt() / 100 : 1;
@@ -401,7 +271,7 @@ function init() {
             }
         }, 100);
     };
-    if (!searchMode) resetHeight();
+    resetHeight();
     $tree.addEventListener('click', resetHeight);
     $tree.addEventListener('keyup', resetHeight);
 
@@ -606,10 +476,6 @@ function init() {
                                     i.textContent = name;
                                 }
                             }
-                            if (searchMode) {
-                                li = $('results-item-' + id);
-                                li.innerHTML = generateBookmarkHTML(title, url);
-                            }
                             li.firstElementChild.focus();
                         });
                     }
@@ -624,12 +490,11 @@ function init() {
                 if (li1) {
                     var nearLi1 = li1.nextElementSibling || li1.previousElementSibling;
                     li1.destroy();
-                    if (!searchMode && nearLi1) nearLi1.querySelector('a, span').focus();
+                    if (nearLi1) nearLi1.querySelector('a, span').focus();
                 }
                 if (li2) {
                     var nearLi2 = li2.nextElementSibling || li2.previousElementSibling;
                     li2.destroy();
-                    if (searchMode && nearLi2) nearLi2.querySelector('a, span').focus();
                 }
             });
         },
@@ -718,7 +583,6 @@ function init() {
         }
     };
     $tree.addEventListener('click', bookmarkHandler);
-    $results.addEventListener('click', bookmarkHandler);
     var bookmarkHandlerMiddle = function(e) {
         if (e.button != 1) return; // force middle-click
         var event = document.createEvent('MouseEvents');
@@ -726,7 +590,6 @@ function init() {
         e.target.dispatchEvent(event);
     };
     $tree.addEventListener('mouseup', bookmarkHandlerMiddle);
-    $results.addEventListener('mouseup', bookmarkHandlerMiddle);
 
     // Disable Chrome auto-scroll feature
     window.addEventListener('mousedown', function(e) {
@@ -745,7 +608,7 @@ function init() {
             // This is kinda hacky. Oh well.
             if (e) {
                 var el = e.target;
-                if (el == $tree || el == $results) active.focus();
+                if (el == $tree) active.focus();
             }
         }
         $bookmarkContextMenu.style.left = '-999px';
@@ -756,9 +619,7 @@ function init() {
 
     body.addEventListener('click', clearMenu);
     $tree.addEventListener('scroll', clearMenu);
-    $results.addEventListener('scroll', clearMenu);
     $tree.addEventListener('focus', clearMenu, true);
-    $results.addEventListener('focus', clearMenu, true);
 
     var currentContext = null;
     var macCloseContextMenu = false;
@@ -951,8 +812,6 @@ function init() {
                     var parentPrevLi = li.parentNode.parentNode;
                     if (parentPrevLi && parentPrevLi.tagName == 'LI') {
                         parentPrevLi.querySelector('a, span').focus();
-                    } else {
-                        searchInput.focus();
                     }
                 }
                 break;
@@ -988,22 +847,14 @@ function init() {
                 li.firstElementChild.dispatchEvent(event);
                 break;
             case 35: // end
-                if (searchMode) {
-                    this.querySelector('li:last-child a').focus();
-                } else {
-                    var lis = this.querySelectorAll('ul>li:last-child');
-                    var li = Array.filter(function(li) {
-                        return !!li.parentNode.offsetHeight;
-                    }, lis).getLast();
-                    li.querySelector('span, a').focus();
-                }
+                var lis = this.querySelectorAll('ul>li:last-child');
+                var li = Array.filter(function(li) {
+                    return !!li.parentNode.offsetHeight;
+                }, lis).getLast();
+                li.querySelector('span, a').focus();
                 break;
             case 36: // home
-                if (searchMode) {
-                    this.querySelector('ul>li:first-child a').focus();
-                } else {
-                    this.querySelector('ul>li:first-child').querySelector('span, a').focus();
-                }
+                this.querySelector('ul>li:first-child').querySelector('span, a').focus();
                 break;
             case 34: // page down
                 var self = this;
@@ -1095,7 +946,6 @@ function init() {
         }
     };
     $tree.addEventListener('keydown', treeKeyDown);
-    $results.addEventListener('keydown', treeKeyDown);
 
     var treeKeyUp = function(e) {
         var item = document.activeElement;
@@ -1122,7 +972,6 @@ function init() {
         }
     };
     $tree.addEventListener('keyup', treeKeyUp);
-    $results.addEventListener('keyup', treeKeyUp);
 
     var contextKeyDown = function(e) {
         var menu = this;
@@ -1462,9 +1311,6 @@ function init() {
         if (e.keyCode == 27 && (body.hasClass('needConfirm') || body.hasClass('needEdit') || body.hasClass('needAlert'))) { // esc
             e.preventDefault();
             closeDialogs();
-        } else if ((e.metaKey || e.ctrlKey) && e.keyCode == 70) { // cmd/ctrl + f
-            searchInput.focus();
-            searchInput.select();
         }
     });
     $('cover').addEventListener('click', closeDialogs);
