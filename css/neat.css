@@ -65,15 +65,6 @@ body.linux input{
 	bottom: 0;
 	left: 0;
 }
-#search{
-	padding: 0 2px 2px;
-}
-#search input{
-	width: 100%;
-	margin: 2px 0;
-	padding: 2px;
-}
-#results,
 #tree{
 	outline: 0;
 	padding: 3px 0;
@@ -84,8 +75,6 @@ body.linux input{
 	position: relative;
     overflow-y: auto;
 }
-#results ul,
-#results ul li,
 #tree ul,
 #tree ul li{
 	list-style: none;
@@ -93,7 +82,6 @@ body.linux input{
 	padding: 0;
 	display: block;
 }
-#results ul li a,
 #tree ul li a,
 #tree ul li span{
 	display: block;
@@ -106,7 +94,6 @@ body.linux input{
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
-#results ul li a *,
 #tree ul li a *,
 #tree ul li span *{
 	pointer-events: none;
@@ -142,29 +129,21 @@ body.linux input{
 .rtl #tree ul li.open>span .twisty{
 	-webkit-transform: scaleX(-1) rotate(90deg);
 }
-#results ul li a img,
-#results ul li span img,
 #tree ul li a img,
 #tree ul li span img{
 	margin-top: -2px;
 	vertical-align: middle;
 	margin-__MSG_@@bidi_end_edge__: 4px;
 }
-#results ul li a img,
 #tree ul li a img{
 	margin-__MSG_@@bidi_start_edge__: 8px;
 }
-#results ul li i,
 #tree ul li i{
 	font-style: normal;
 }
-#results ul li a:hover i,
 #tree ul li a:hover i{
 	text-decoration: underline;
 }
-#results ul li a:active,
-#results ul li a.active,
-#results ul li a:focus,
 #tree ul li a:active,
 #tree ul li span:active,
 #tree ul li a.active,
@@ -178,9 +157,6 @@ menu[type=context] command:focus{
 	-webkit-box-shadow: 0 -1px #5594d2;
 	text-shadow: 0 0 rgba(255,255,255,.5), 0 1px rgba(0,0,0,.5);
 	outline: 0;
-}
-.searchFocus #results ul>li:first-child a{
-	background-color: rgba(43,93,205,.2);
 }
 #tree ul li span:active .twisty,
 #tree ul li span.active .twisty,

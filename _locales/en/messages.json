@@ -226,16 +226,6 @@
   "optionZoom": {
     "message": "Zoom"
   },
-  "parentFolder": {
-    "description": "Parent folder information displayed in the tooltip of bookmarks in search results list.",
-    "message": "Parent folder: \"$folderName$\"",
-    "placeholders": {
-      "folderName": {
-        "content": "$1",
-        "example": "Bookmarks bar"
-      }
-    }
-  },
   "reportedToDeveloper": {
     "description": "A message for an error occurred in the extension, has been reported to the developer.",
     "message": "This has been reported to the developer."
@@ -259,10 +249,6 @@
   },
   "save": {
     "message": "Save"
-  },
-  "searchBookmarks": {
-    "description": "Placeholder text for search field.",
-    "message": "Search Bookmarks"
   },
   "url": {
     "message": "URL"
