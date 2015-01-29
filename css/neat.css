@@ -123,9 +123,6 @@ body.linux input{
 	-webkit-transition: -webkit-transform .15s;
 	-webkit-transform: scaleX(.99);
 }
-.chrome-536 #tree ul li span .twisty{ /* Chrome build 536 dev bug */
-	-webkit-transition-duration: 0s;
-}
 .rtl #tree ul li span .twisty{
 	-webkit-transform: scaleX(-1);
 }

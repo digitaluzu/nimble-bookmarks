@@ -1362,9 +1362,6 @@ function init() {
         }
     });
 
-    // Fix stupid Chrome build 536 bug
-    if (version.build >= 536) body.addClass('chrome-536');
-
     // Fix stupid wrong offset of the page on Mac
     if (os == 'mac') {
         setTimeout(function() {
