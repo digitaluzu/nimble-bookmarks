@@ -1309,12 +1309,6 @@ function init() {
             if (top !== 0) body.scrollTop = 0;
         }, 1500);
     }
-
-    if (localStorage.userstyle) {
-        var style = document.createElement('style');
-        style.textContent = localStorage.userstyle;
-        style.inject(document.body);
-    }
 })(window);
 
 onerror = function() {

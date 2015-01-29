@@ -71,17 +71,6 @@
   "customIconText": {
     "message": "The icon must be 19&times;19 or it will be resized."
   },
-  "customStyles": {
-    "message": "Custom Styles"
-  },
-  "customStylesText": {
-    "message": "This requires some CSS skills. Hack at your own risk. Code sharing is encouraged via $linkGithubGist$.",
-    "placeholders": {
-      "linkGithubGist": {
-        "content": "$1"
-      }
-    }
-  },
   "deleteEllipsis": {
     "message": "Delete..."
   },

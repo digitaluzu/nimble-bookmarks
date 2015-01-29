@@ -21,9 +21,7 @@ function init() {
     var version = chrome.i18n.getMessage('version');
     $('resetText').innerHTML = chrome.i18n.getMessage('resetText', [extName]);
     $('reset').innerHTML = chrome.i18n.getMessage('reset');
-    $('customStyles').innerHTML = chrome.i18n.getMessage('customStyles');
     var linkGithubGist = '<a href="http://gist.github.com/">GitHub Gist</a>';
-    $('customStylesText').innerHTML = chrome.i18n.getMessage('customStylesText', [linkGithubGist]);
     var neaterEmail = '<a href="mailto:neaterbookmarks@gmail.com?body=%0d%0dSent from Neater Bookmarks Options page">neaterbookmarks@gmail.com</a>';
     $('optionsFooterText1').innerHTML = chrome.i18n.getMessage('optionsFooterText1', [neaterEmail]);
     var neaterGithub = 'GitHub: <a href="http://goo.gl/s2kVi">http://goo.gl/s2kVi</a>';
@@ -154,14 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
         location.reload();
         alert(_m('extName') + ' has been reset.');
     }, false);
-
-    var textareaUserstyle = $('userstyle');
-    if (localStorage.userstyle) textareaUserstyle.value = localStorage.userstyle;
-    CodeMirror.fromTextArea(textareaUserstyle, {
-        onChange: function(c) {
-            localStorage.userstyle = c.getValue();
-        }
-    });
 });
 
 document.addEventListener('DOMContentLoaded', function() {
