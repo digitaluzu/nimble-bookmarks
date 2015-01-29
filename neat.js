@@ -760,6 +760,7 @@ function init() {
         var metaKey = e.metaKey;
         if (keyCode == 40 && metaKey) keyCode = 35; // cmd + down (Mac)
         if (keyCode == 38 && metaKey) keyCode = 36; // cmd + up (Mac)
+        var event; var lis; var parentID;
         switch (keyCode) {
             case 40: // down
                 e.preventDefault();
@@ -786,7 +787,7 @@ function init() {
                 var prevLi = li.previousElementSibling;
                 if (prevLi) {
                     while (prevLi.hasClass('open') && prevLi.querySelector('ul>li:last-child')) {
-                        var lis = prevLi.querySelectorAll('ul>li:last-child');
+                        lis = prevLi.querySelectorAll('ul>li:last-child');
                         prevLi = Array.filter(function(li) {
                             return !!li.parentNode.offsetHeight;
                         }, lis).getLast();
@@ -802,11 +803,11 @@ function init() {
             case 39: // right (left for RTL)
                 e.preventDefault();
                 if (li.hasClass('parent') && ((!rtl && !li.hasClass('open')) || (rtl && li.hasClass('open')))) {
-                    var event = document.createEvent('MouseEvents');
+                    event = document.createEvent('MouseEvents');
                     event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
                     li.firstElementChild.dispatchEvent(event);
                 } else if (rtl) {
-                    var parentID = li.dataset.parentid;
+                    parentID = li.dataset.parentid;
                     if (parentID == '0') return;
                     $('neat-tree-item-' + parentID).querySelector('span').focus();
                 }
@@ -814,11 +815,11 @@ function init() {
             case 37: // left (right for RTL)
                 e.preventDefault();
                 if (li.hasClass('parent') && ((!rtl && li.hasClass('open')) || (rtl && !li.hasClass('open')))) {
-                    var event = document.createEvent('MouseEvents');
+                    event = document.createEvent('MouseEvents');
                     event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
                     li.firstElementChild.dispatchEvent(event);
                 } else if (!rtl) {
-                    var parentID = li.dataset.parentid;
+                    parentID = li.dataset.parentid;
                     if (parentID == '0') return;
                     $('neat-tree-item-' + parentID).querySelector('span').focus();
                 }
@@ -826,16 +827,15 @@ function init() {
             case 32: // space
             case 13: // enter
                 e.preventDefault();
-                var event = document.createEvent('MouseEvents');
+                event = document.createEvent('MouseEvents');
                 event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, e.ctrlKey, false, e.shiftKey, e.metaKey, 0, null);
                 li.firstElementChild.dispatchEvent(event);
                 break;
             case 35: // end
-                var lis = this.querySelectorAll('ul>li:last-child');
-                var li = Array.filter(function(li) {
+                lis = this.querySelectorAll('ul>li:last-child');
+                Array.filter(function(li) {
                     return !!li.parentNode.offsetHeight;
-                }, lis).getLast();
-                li.querySelector('span, a').focus();
+                }, lis).getLast().querySelector('span, a').focus();
                 break;
             case 36: // home
                 this.querySelector('ul>li:first-child').querySelector('span, a').focus();
