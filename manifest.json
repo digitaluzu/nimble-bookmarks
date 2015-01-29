@@ -22,6 +22,16 @@
     "background": {
         "scripts": ["background.js"]
     },
+    "commands": {
+        "_execute_browser_action": {
+            "suggested_key": {
+                "windows": "Ctrl+B",
+                "mac": "Command+B",
+                "chromeos": "Ctrl+B",
+                "linux": "Ctrl+B"
+            }
+        }
+    },
     "permissions": [
         "chrome://favicon/",
         "bookmarks",
