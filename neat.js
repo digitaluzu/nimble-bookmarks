@@ -260,11 +260,11 @@ function init() {
         setTimeout(function() {
             var neatTree = $tree.firstElementChild;
             if (neatTree) {
-                var fullHeight = neatTree.offsetHeight + $tree.offsetTop + 8;
+                var fullHeight = neatTree.offsetHeight + $tree.offsetTop + 5;
                 // Slide up faster than down
                 body.style.webkitTransitionDuration = (fullHeight < window.innerHeight) ? '.3s' : '.1s';
                 var maxHeight = screen.height - window.screenY - 50;
-                var height = Math.max(100, Math.min(fullHeight, maxHeight));
+                var height = Math.max(0, Math.min(fullHeight, maxHeight));
                 body.style.height = height + 'px';
                 localStorage.popupHeight = height;
             }
