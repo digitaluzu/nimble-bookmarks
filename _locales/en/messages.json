@@ -1,7 +1,4 @@
 {
-  "accessibility": {
-    "message": "Accessibility Settings"
-  },
   "confirmDeleteFolderBookmarks": {
     "message": "Are you sure you want to delete $folderName$ folder and $bookmarkCount$ bookmark(s) in it?",
     "placeholders": {

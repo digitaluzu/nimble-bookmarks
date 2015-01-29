@@ -14,8 +14,6 @@ function init() {
     $('optionPopupStays').innerHTML = chrome.i18n.getMessage('optionPopupStays');
     $('optionConfirmOpenFolder').innerHTML = chrome.i18n.getMessage('optionConfirmOpenFolder');
     $('optionRememberPrevState').innerHTML = chrome.i18n.getMessage('optionRememberPrevState');
-    $('accessibility').innerHTML = chrome.i18n.getMessage('accessibility');
-    $('optionZoom').innerHTML = chrome.i18n.getMessage('optionZoom');
     $('customIcon').innerHTML = chrome.i18n.getMessage('customIcon');
     $('customIconText').innerHTML = chrome.i18n.getMessage('customIconText');
     $('resetSettings').innerHTML = chrome.i18n.getMessage('resetSettings');
@@ -78,19 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
     rememberPrevState.checked = !localStorage.dontRememberState;
     rememberPrevState.addEventListener('change', function() {
         localStorage.dontRememberState = rememberPrevState.checked ? '' : '1';
-    });
-
-    var zoom = $('zoom-input');
-    setInterval(function() {
-        zoom.value = localStorage.zoom || 100;
-    }, 1000);
-    zoom.addEventListener('input', function() {
-        var val = zoom.value.toInt();
-        if (val == 100) {
-            localStorage.removeItem('zoom');
-        } else {
-            localStorage.zoom = val;
-        }
     });
 
     var customIconPreview = $('custom-icon-preview').firstElementChild;
