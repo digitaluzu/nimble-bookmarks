@@ -248,7 +248,7 @@ function init() {
         setTimeout(function() {
             var neatTree = $tree.firstElementChild;
             if (neatTree) {
-                var fullHeight = neatTree.offsetHeight + $tree.offsetTop + 5;
+                var fullHeight = neatTree.offsetHeight + $tree.offsetTop + 6;
                 // Slide up faster than down
                 body.style.webkitTransitionDuration = (fullHeight < window.innerHeight) ? '.3s' : '.1s';
                 var maxHeight = screen.height - window.screenY - 50;
