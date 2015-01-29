@@ -13,7 +13,7 @@ function init() {
 	var body = document.body;
 	var _m = chrome.i18n.getMessage;
 	var _b = chrome.extension.getBackgroundPage().console;
-	
+
 	// Error alert
 	var AlertDialog = {
 		open: function(dialog){
@@ -29,11 +29,11 @@ function init() {
 	window.addEventListener('error', function(){
 		AlertDialog.open('<strong>' + _m('errorOccured') + '</strong><br>' + _m('reportedToDeveloper'));
 	}, false);
-	
+
 	// Platform detection
 	var os = (navigator.platform.toLowerCase().match(/mac|win|linux/i) || ['other'])[0];
 	body.addClass(os);
-	
+
 	// Chrome version detection
 	var version = (function(){
 		var v = {};
@@ -45,7 +45,7 @@ function init() {
 		});
 		return v;
 	})();
-	
+
 	// Some i18n
 	$('search-input').placeholder = _m('searchBookmarks');
 	$('edit-dialog-name').placeholder = _m('name');
@@ -67,17 +67,17 @@ function init() {
 		if (el.tagName == 'COMMAND') el.label = m;
 		el.textContent = m;
 	});
-	
+
 	// RTL indicator
 	var rtl = (body.getComputedStyle('direction') == 'rtl');
 	if (rtl) body.addClass('rtl');
-	
+
 	// Init some variables
 	var opens = localStorage.opens ? JSON.parse(localStorage.opens) : [];
 	var rememberState = !localStorage.dontRememberState;
 	var a = document.createElement('a');
 	var httpsPattern = /^https?:\/\//i;
-	
+
 	// Adaptive bookmark tooltips
 	var adaptBookmarkTooltips = function(){
 		var bookmarks = document.querySelectorAll('li.child a');
@@ -98,7 +98,7 @@ function init() {
 			}
 		}
 	};
-	
+
 	var generateBookmarkHTML = function(title, url, extras){
 		if (!extras) extras = '';
 		var u = url.htmlspecialchars();
@@ -106,20 +106,20 @@ function init() {
 		var tooltipURL = url;
 		if (/^javascript:/i.test(url)){
 			if (url.length > 140) tooltipURL = url.slice(0, 140) + '...';
-			favicon = 'document-code.png';
+			favicon = 'images/document-code.png';
 		}
 		tooltipURL = tooltipURL.htmlspecialchars();
 		var name = title.htmlspecialchars() || (httpsPattern.test(url) ? url.replace(httpsPattern, '') : _m('noTitle'));
 		return '<a href="' + u + '"' + ' title="' + tooltipURL + '" tabindex="0" ' + extras + '>'
 			+ '<img src="' + favicon + '" width="16" height="16" alt=""><i>' + name + '</i>' + '</a>';
 	};
-	
+
 	var generateHTML = function(data, level){
 		if (!level) level = 0;
 		var paddingStart = 14 * level;
 		var group = (level == 0) ? 'tree' : 'group';
 		var html = '<ul role="' + group + '" data-level="' + level + '">';
-		
+
 		for (var i = 0, l = data.length; i < l; i++){
 			var d = data[i];
 			var children = d.children;
@@ -138,7 +138,7 @@ function init() {
 				}
 				html += '<li class="parent' + open + '"' + idHTML + ' role="treeitem" aria-expanded="' + isOpen + '" data-parentid="' + parentID + '">'
 					+ '<span tabindex="0" style="-webkit-padding-start: ' + paddingStart + 'px"><b class="twisty"></b>'
-					+ '<img src="folder.png" width="16" height="16" alt=""><i>' + (title || _m('noTitle')) + '</i>' + '</span>';
+					+ '<img src="images/folder.png" width="16" height="16" alt=""><i>' + (title || _m('noTitle')) + '</i>' + '</span>';
 				if (isOpen){
 					if (children){
 						html += generateHTML(children, level + 1);
@@ -164,15 +164,15 @@ function init() {
 		html += '</ul>';
 		return html;
 	};
-	
+
 	var $tree = $('tree');
 	chrome.bookmarks.getTree(function(tree){
 		var html = generateHTML(tree[0].children);
 		$tree.innerHTML = html;
-		
+
 		// recall scroll position (from top of popup) when tree opened
 		if (rememberState) $tree.scrollTop = localStorage.scrollTop || 0;
-		
+
 		var focusID = localStorage.focusID;
 		if (typeof focusID != 'undefined' && focusID != null){
 			var focusEl = $('neat-tree-item-' + focusID);
@@ -189,12 +189,12 @@ function init() {
 				}, 4000);
 			}
 		}
-		
+
 		setTimeout(adaptBookmarkTooltips, 100);
-		
+
 		tree = null;
 	});
-	
+
 	// Events for the tree
 	$tree.addEventListener('scroll', function(){
 		localStorage.scrollTop = $tree.scrollTop; // store scroll position at each scroll event
@@ -258,13 +258,13 @@ function init() {
 		if (tagName != 'A' && tagName != 'SPAN') return;
 		el.focus();
 	});
-	
+
 	// Search
 	var $results = $('results');
 	var searchMode = false;
 	var searchInput = $('search-input');
 	var prevValue = '';
-	
+
 	var search = function(){
 		var value = searchInput.value.trim();
 		localStorage.searchQuery = value;
@@ -311,7 +311,7 @@ function init() {
 			$tree.style.display = 'none';
 			$results.innerHTML = html;
 			$results.style.display = 'block';
-			
+
 			var lis = $results.querySelectorAll('li');
 			Array.forEach(function(li){
 				var parentId = li.dataset.parentid;
@@ -321,14 +321,14 @@ function init() {
 					a.title = _m('parentFolder', node[0].title) + '\n' + a.title;
 				});
 			}, lis);
-			
+
 			results = null;
 			vPattern = null;
 			lis = null;
 		});
 	};
 	searchInput.addEventListener('input', search);
-	
+
 	searchInput.addEventListener('keydown', function(e){
 		var key = e.keyCode;
 		var focusID = localStorage.focusID;
@@ -369,14 +369,14 @@ function init() {
 			search();
 		}
 	});
-	
+
 	searchInput.addEventListener('focus', function(){
 		body.addClass('searchFocus');
 	});
 	searchInput.addEventListener('blur', function(){
 		body.removeClass('searchFocus');
 	});
-	
+
 	// Saved search query
 	if (rememberState && localStorage.searchQuery){
 		searchInput.value = localStorage.searchQuery;
@@ -384,7 +384,7 @@ function init() {
 		searchInput.select();
 		searchInput.scrollLeft = 0;
 	}
-	
+
 	// Popup auto-height
 	var resetHeight = function(){
 		var zoomLevel = localStorage.zoom ? localStorage.zoom.toInt() / 100 : 1;
@@ -404,18 +404,18 @@ function init() {
 	if (!searchMode) resetHeight();
 	$tree.addEventListener('click', resetHeight);
 	$tree.addEventListener('keyup', resetHeight);
-	
+
 	// Confirm dialog event listeners
 	$('confirm-dialog-button-1').addEventListener('click', function(){
 		ConfirmDialog.fn1();
 		ConfirmDialog.close();
 	}, false);
-	
+
 	$('confirm-dialog-button-2').addEventListener('click', function(){
 		ConfirmDialog.fn2();
 		ConfirmDialog.close();
 	}, false);
-	
+
 	// Confirm dialog
 	var ConfirmDialog = {
 		open: function(opts){
@@ -434,7 +434,7 @@ function init() {
 		fn1: function(){},
 		fn2: function(){}
 	};
-	
+
 	// Edit dialog event listener
 	$('edit-dialog').addEventListener('submit', function(){
 		EditDialog.close();
@@ -478,7 +478,7 @@ function init() {
 		},
 		fn: function(){}
 	};
-	
+
 	// Bookmark handling
 	var dontConfirmOpenFolder = !!localStorage.dontConfirmOpenFolder;
 	var bookmarkClickStayOpen = !!localStorage.bookmarkClickStayOpen;
@@ -497,7 +497,7 @@ function init() {
 				if (!bookmarkClickStayOpen) setTimeout(window.close, 200);
 			});
 		},
-		
+
 		openBookmarkNewTab: function(url, selected, blankTabCheck){
 			var open = function(){
 				chrome.tabs.create({
@@ -520,14 +520,14 @@ function init() {
 				open();
 			}
 		},
-		
+
 		openBookmarkNewWindow: function(url, incognito){
 			chrome.windows.create({
 				url: url,
 				incognito: incognito
 			});
 		},
-		
+
 		openBookmarks: function(urls, selected){
 			var urlsLen = urls.length;
 			var open = function(){
@@ -553,7 +553,7 @@ function init() {
 				open();
 			}
 		},
-		
+
 		openBookmarksNewWindow: function(urls, incognito){
 			var urlsLen = urls.length;
 			var open = function(){
@@ -574,7 +574,7 @@ function init() {
 				open();
 			}
 		},
-		
+
 		editBookmarkFolder: function(id){
 			chrome.bookmarks.get(id, function(nodeList){
 				if (!nodeList.length) return;
@@ -616,7 +616,7 @@ function init() {
 				});
 			});
 		},
-		
+
 		deleteBookmark: function(id){
 			var li1 = $('neat-tree-item-' + id);
 			var li2 = $('results-item-' + id);
@@ -633,7 +633,7 @@ function init() {
 				}
 			});
 		},
-		
+
 		deleteBookmarks: function(id, bookmarkCount, folderCount){
 			var li = $('neat-tree-item-' + id);
 			var item = li.querySelector('span');
@@ -671,7 +671,7 @@ function init() {
 			}
 		}
 	};
-	
+
 	var middleClickBgTab = !!localStorage.middleClickBgTab;
 	var leftClickNewTab = !!localStorage.leftClickNewTab;
 	var noOpenBookmark = false;
@@ -723,16 +723,16 @@ function init() {
 	};
 	$tree.addEventListener('mouseup', bookmarkHandlerMiddle);
 	$results.addEventListener('mouseup', bookmarkHandlerMiddle);
-	
+
 	// Disable Chrome auto-scroll feature
 	window.addEventListener('mousedown', function(e){
 		if (e.button == 1) e.preventDefault();
 	});
-	
+
 	// Context menu
 	var $bookmarkContextMenu = $('bookmark-context-menu');
 	var $folderContextMenu = $('folder-context-menu');
-	
+
 	var clearMenu = function(e){
 		currentContext = null;
 		var active = body.querySelector('.active');
@@ -749,13 +749,13 @@ function init() {
 		$folderContextMenu.style.left = '-999px';
 		$folderContextMenu.style.opacity = 0;
 	};
-	
+
 	body.addEventListener('click', clearMenu);
 	$tree.addEventListener('scroll', clearMenu);
 	$results.addEventListener('scroll', clearMenu);
 	$tree.addEventListener('focus', clearMenu, true);
 	$results.addEventListener('focus', clearMenu, true);
-	
+
 	var currentContext = null;
 	var macCloseContextMenu = false;
 	body.addEventListener('contextmenu', function(e){
@@ -814,7 +814,7 @@ function init() {
 			clearMenu();
 		}
 	});
-	
+
 	var bookmarkContextHandler = function(e){
 		e.stopPropagation();
 		if (!currentContext) return;
@@ -853,7 +853,7 @@ function init() {
 	$bookmarkContextMenu.addEventListener('click', function(e){
 		e.stopPropagation();
 	});
-	
+
 	var folderContextHandler = function(e){
 		if (!currentContext) return;
 		var el = e.target;
@@ -897,7 +897,7 @@ function init() {
 	$folderContextMenu.addEventListener('click', function(e){
 		e.stopPropagation();
 	});
-	
+
 	// Keyboard navigation
 	var keyBuffer = '', keyBufferTimer;
 	var treeKeyDown = function(e){
@@ -1086,7 +1086,7 @@ function init() {
 	};
 	$tree.addEventListener('keydown', treeKeyDown);
 	$results.addEventListener('keydown', treeKeyDown);
-	
+
 	var treeKeyUp = function(e){
 		var item = document.activeElement;
 		if (!/^(a|span)$/i.test(item.tagName)) item = $tree.querySelector('.focus') || $tree.querySelector('li:first-child>span');
@@ -1112,7 +1112,7 @@ function init() {
 	};
 	$tree.addEventListener('keyup', treeKeyUp);
 	$results.addEventListener('keyup', treeKeyUp);
-	
+
 	var contextKeyDown = function(e){
 		var menu = this;
 		var item = document.activeElement;
@@ -1170,19 +1170,19 @@ function init() {
 	};
 	$bookmarkContextMenu.addEventListener('keydown', contextKeyDown);
 	$folderContextMenu.addEventListener('keydown', contextKeyDown);
-	
+
 	var contextMouseMove = function(e){
 		e.target.focus();
 	};
 	$bookmarkContextMenu.addEventListener('mousemove', contextMouseMove);
 	$folderContextMenu.addEventListener('mousemove', contextMouseMove);
-	
+
 	var contextMouseOut = function(){
 		if (this.style.opacity.toInt()) this.focus();
 	};
 	$bookmarkContextMenu.addEventListener('mouseout', contextMouseOut);
 	$folderContextMenu.addEventListener('mouseout', contextMouseOut);
-	
+
 	// Drag and drop
 	var draggedBookmark = null;
 	var draggedOut = false;
@@ -1400,7 +1400,7 @@ function init() {
 			onDrop();
 		}
 	});
-	
+
 	// Resizer
 	var $resizer = $('resizer');
 	var resizerDown = false;
@@ -1428,7 +1428,7 @@ function init() {
 		resizerDown = false;
 		adaptBookmarkTooltips();
 	});
-	
+
 	// Closing dialogs on escape
 	var closeDialogs = function(){
 			if (body.hasClass('needConfirm')) ConfirmDialog.fn2(); ConfirmDialog.close();
@@ -1445,12 +1445,12 @@ function init() {
 		}
 	});
 	$('cover').addEventListener('click', closeDialogs);
-	
+
 	// Make webkit transitions work only after elements are settled down
 	setTimeout(function(){
 		body.addClass('transitional');
 	}, 10);
-	
+
 	// Zoom
 	if (localStorage.zoom){
 		body.dataset.zoom = localStorage.zoom;
@@ -1493,10 +1493,10 @@ function init() {
 				break;
 		}
 	});
-	
+
 	// Fix stupid Chrome build 536 bug
 	if (version.build >= 536) body.addClass('chrome-536');
-	
+
 	// Fix stupid wrong offset of the page on Mac
 	if (os == 'mac'){
 		setTimeout(function(){
@@ -1504,7 +1504,7 @@ function init() {
 			if (top != 0) body.scrollTop = 0;
 		}, 1500);
 	}
-	
+
 	if (localStorage.userstyle){
 		var style = document.createElement('style');
 		style.textContent = localStorage.userstyle;

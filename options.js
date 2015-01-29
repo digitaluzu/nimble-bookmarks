@@ -144,8 +144,8 @@ document.addEventListener('DOMContentLoaded', function(){
 	$('reset-button').addEventListener('click', function(){
 		localStorage.clear();
 		delete localStorage.customIcon;
-		chrome.browserAction.setIcon({path: 'icon.png'});
-		customIconPreview.src = 'icon.png';
+		chrome.browserAction.setIcon({path: 'images/icon.png'});
+		customIconPreview.src = 'images/icon.png';
 		dontLoad = true;
 		location.reload();
 		alert(_m('extName') + ' has been reset.');
