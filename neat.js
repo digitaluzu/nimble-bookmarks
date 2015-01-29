@@ -1,3 +1,5 @@
+/* jshint unused: true */
+
 window.addEventListener('load', init, false);
 
 function init() {
@@ -12,7 +14,6 @@ function init() {
     var navigator = window.navigator;
     var body = document.body;
     var _m = chrome.i18n.getMessage;
-    var _b = chrome.extension.getBackgroundPage().console;
 
     // Error alert
     var AlertDialog = {
@@ -75,7 +76,6 @@ function init() {
     // Init some variables
     var opens = localStorage.opens ? JSON.parse(localStorage.opens) : [];
     var rememberState = !localStorage.dontRememberState;
-    var a = document.createElement('a');
     var httpsPattern = /^https?:\/\//i;
 
     // Adaptive bookmark tooltips
@@ -493,7 +493,6 @@ function init() {
                     if (nearLi1) nearLi1.querySelector('a, span').focus();
                 }
                 if (li2) {
-                    var nearLi2 = li2.nextElementSibling || li2.previousElementSibling;
                     li2.destroy();
                 }
             });
