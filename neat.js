@@ -1,4 +1,5 @@
-/* jshint unused: true */
+/* jshint unused: true, undef: true */
+/* global window, document, localStorage, $, $each, chrome, setTimeout, screen */
 
 window.addEventListener('load', init, false);
 
@@ -345,6 +346,7 @@ function init() {
     var actions = {
         openBookmark: function(url) {
             chrome.tabs.getSelected(null, function(tab) {
+                var decodedURL;
                 try {
                     decodedURL = decodeURIComponent(url);
                 } catch (e) {
@@ -621,16 +623,17 @@ function init() {
             }, 500);
         }
         var el = e.target;
+        var active, pageX, pageY, boundY;
         if (el.tagName == 'A') {
             currentContext = el;
-            var active = body.querySelector('.active');
+            active = body.querySelector('.active');
             if (active) active.removeClass('active');
             el.addClass('active');
             var bookmarkMenuWidth = $bookmarkContextMenu.offsetWidth;
             var bookmarkMenuHeight = $bookmarkContextMenu.offsetHeight;
-            var pageX = rtl ? Math.max(0, e.pageX - bookmarkMenuWidth) : Math.min(e.pageX, body.offsetWidth - bookmarkMenuWidth);
-            var pageY = e.pageY;
-            var boundY = window.innerHeight - bookmarkMenuHeight;
+            pageX = rtl ? Math.max(0, e.pageX - bookmarkMenuWidth) : Math.min(e.pageX, body.offsetWidth - bookmarkMenuWidth);
+            pageY = e.pageY;
+            boundY = window.innerHeight - bookmarkMenuHeight;
             if (pageY > boundY) pageY -= bookmarkMenuHeight;
             if (pageY < 0) pageY = boundY;
             pageY = Math.max(0, pageY);
@@ -640,7 +643,7 @@ function init() {
             $bookmarkContextMenu.focus();
         } else if (el.tagName == 'SPAN') {
             currentContext = el;
-            var active = body.querySelector('.active');
+            active = body.querySelector('.active');
             if (active) active.removeClass('active');
             el.addClass('active');
             if (el.parentNode.dataset.parentid == '0') {
@@ -650,9 +653,9 @@ function init() {
             }
             var folderMenuWidth = $folderContextMenu.offsetWidth;
             var folderMenuHeight = $folderContextMenu.offsetHeight;
-            var pageX = rtl ? Math.max(0, e.pageX - folderMenuWidth) : Math.min(e.pageX, body.offsetWidth - folderMenuWidth);
-            var pageY = e.pageY;
-            var boundY = window.innerHeight - folderMenuHeight;
+            pageX = rtl ? Math.max(0, e.pageX - folderMenuWidth) : Math.min(e.pageX, body.offsetWidth - folderMenuWidth);
+            pageY = e.pageY;
+            boundY = window.innerHeight - folderMenuHeight;
             if (pageY > boundY) pageY -= folderMenuHeight;
             if (pageY < 0) pageY = boundY;
             $folderContextMenu.style.left = pageX + 'px';

@@ -1,4 +1,5 @@
-/* jshint unused: true */
+/* jshint unused: true, undef: true */
+/* global window, document, alert, localStorage, $, chrome */
 
 window.addEventListener('load', init, false);
 
