@@ -752,8 +752,6 @@ function init() {
     });
 
     // Keyboard navigation
-    var keyBuffer = '',
-        keyBufferTimer;
     var treeKeyDown = function(e) {
         var item = document.activeElement;
         if (!/^(a|span)$/i.test(item.tagName)) item = $tree.querySelector('.focus') || $tree.querySelector('li:first-child>span');
@@ -842,44 +840,6 @@ function init() {
             case 36: // home
                 this.querySelector('ul>li:first-child').querySelector('span, a').focus();
                 break;
-            case 34: // page down
-                var self = this;
-                var getLastItem = function() {
-                    var bound = self.offsetHeight + self.scrollTop;
-                    var items = self.querySelectorAll('a, span');
-                    return Array.filter(function(item) {
-                        return !!item.parentElement.offsetHeight && item.offsetTop < bound;
-                    }, items).getLast();
-                };
-                var item = getLastItem();
-                if (item != document.activeElement) {
-                    e.preventDefault();
-                    item.focus();
-                } else {
-                    setTimeout(function() {
-                        getLastItem().focus();
-                    }, 0);
-                }
-                break;
-            case 33: // page up
-                var self = this;
-                var getFirstItem = function() {
-                    var bound = self.scrollTop;
-                    var items = self.querySelectorAll('a, span');
-                    return Array.filter(function(item) {
-                        return !!item.parentElement.offsetHeight && ((item.offsetTop + item.offsetHeight) > bound);
-                    }, items)[0];
-                };
-                var item = getFirstItem();
-                if (item != document.activeElement) {
-                    e.preventDefault();
-                    item.focus();
-                } else {
-                    setTimeout(function() {
-                        getFirstItem().focus();
-                    }, 0);
-                }
-                break;
             case 113: // F2, not for Mac
                 if (os == 'mac') break;
                 var id = li.id.replace(/(neat\-tree|results)\-item\-/, '');
@@ -890,45 +850,6 @@ function init() {
             default:
                 var key = String.fromCharCode(keyCode).trim();
                 if (!key) return;
-                if (key != keyBuffer) keyBuffer += key;
-                clearTimeout(keyBufferTimer);
-                keyBufferTimer = setTimeout(function() {
-                    keyBuffer = '';
-                }, 500);
-                var lis = this.querySelectorAll('ul>li');
-                var items = [];
-                for (var i = 0, l = lis.length; i < l; i++) {
-                    var li = lis[i];
-                    if (li.parentNode.offsetHeight) items.push(li.firstElementChild);
-                }
-                var pattern = new RegExp('^' + keyBuffer.escapeRegExp(), 'i');
-                var batch = [];
-                var startFind = false;
-                var found = false;
-                var activeElement = document.activeElement;
-                for (var i = 0, l = items.length; i < l; i++) {
-                    var item = items[i];
-                    if (item == activeElement) {
-                        startFind = true;
-                    } else if (startFind) {
-                        if (pattern.test(item.textContent.trim())) {
-                            found = true;
-                            item.focus();
-                            break;
-                        }
-                    } else {
-                        batch.push(item);
-                    }
-                }
-                if (!found) {
-                    for (var i = 0, l = batch.length; i < l; i++) {
-                        var item = batch[i];
-                        if (pattern.test(item.textContent.trim())) {
-                            item.focus();
-                            break;
-                        }
-                    }
-                }
         }
     };
     $tree.addEventListener('keydown', treeKeyDown);
