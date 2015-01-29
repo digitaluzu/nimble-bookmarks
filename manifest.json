@@ -23,7 +23,6 @@
         "scripts": ["background.js"]
     },
     "permissions": [
-        "<all_urls>",
         "chrome://favicon/",
         "bookmarks",
         "tabs"
