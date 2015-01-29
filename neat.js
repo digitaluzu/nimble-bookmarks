@@ -98,7 +98,7 @@ function init() {
         }
         tooltipURL = tooltipURL.htmlspecialchars();
         var name = title.htmlspecialchars() || (httpsPattern.test(url) ? url.replace(httpsPattern, '') : _m('noTitle'));
-        return '<a href="' + u + '"' + ' title="' + tooltipURL + '" tabindex="0" ' + extras + '>' + '<img src="' + favicon + '" width="16" height="16" alt=""><i>' + name + '</i>' + '</a>';
+        return '<a href="' + u + '"' + ' title="' + tooltipURL + '" tabindex="0" ' + extras + '>' + '<b class="TODO_hotkey"></b><img src="' + favicon + '" width="16" height="16" alt=""><i>' + name + '</i>' + '</a>';
     };
 
     var generateHTML = function(data, level) {

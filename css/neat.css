@@ -111,6 +111,16 @@ body.linux input{
 #tree ul li span *{
 	pointer-events: none;
 }
+#tree ul li .TODO_hotkey{
+	display: inline-block;
+	position: relative;
+	width: 0;
+	height: 0;
+	border-width: 4.5px 0 4.5px 8px;
+	border-color: transparent transparent transparent #84919f;
+	border-style: solid;
+	margin-left: 6px;
+}
 #tree ul li span .twisty{
 	display: inline-block;
 	position: relative;
@@ -142,7 +152,7 @@ body.linux input{
 }
 #results ul li a img,
 #tree ul li a img{
-	margin-__MSG_@@bidi_start_edge__: 16px;
+	margin-__MSG_@@bidi_start_edge__: 8px;
 }
 #results ul li i,
 #tree ul li i{
