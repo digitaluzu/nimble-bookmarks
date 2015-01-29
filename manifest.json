@@ -1,8 +1,9 @@
 {
     "name": "__MSG_extName__",
     "description": "__MSG_extDesc__",
-    "version": "0.9.7.1",
+    "version": "0.0.1",
     "manifest_version": 2,
+    "default_locale": "en",
     "icons": {
         "16": "images/icon16.png",
         "48": "images/icon48.png",
@@ -10,9 +11,14 @@
     },
     "browser_action": {
         "default_icon": "images/icon.png",
+        "default_title": "__MSG_extName__",
         "default_popup": "popup.html"
     },
     "options_page": "options.html",
+    "options_ui": {
+        "page": "options.html",
+        "chrome_style": true
+    },
     "background": {
         "scripts": ["background.js"]
     },
@@ -21,10 +27,5 @@
         "chrome://favicon/",
         "bookmarks",
         "tabs"
-    ],
-    "minimum_chrome_version": "9",
-    "default_locale": "en",
-    "omnibox": {
-        "keyword": "*"
-    }
+    ]
 }
