@@ -11,7 +11,7 @@ var $ = function(id) {
 function $extend(original, extended) {
     for (var key in (extended || {})) original[key] = extended[key];
     return original;
-};
+}
 
 function $each(obj, fn, bind) {
     for (var key in obj) {
@@ -47,7 +47,7 @@ $extend(Array.prototype, {
     },
     clean: function() {
         return this.filter(function(obj) {
-            return (obj != undefined);
+            return (obj !== undefined);
         });
     },
     getLast: function() {
