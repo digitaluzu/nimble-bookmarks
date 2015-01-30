@@ -476,7 +476,6 @@ function init() {
 
         deleteBookmark: function(id) {
             var li1 = $('neat-tree-item-' + id);
-            var li2 = $('results-item-' + id);
 
             var bookmarkName = '<cite>' + li1.textContent.trim() + '</cite>';
             var dialog = _m('confirmDeleteBookmark', [bookmarkName]);
@@ -490,9 +489,6 @@ function init() {
                             var nearLi1 = li1.nextElementSibling || li1.previousElementSibling;
                             li1.destroy();
                             if (nearLi1) nearLi1.querySelector('a, span').focus();
-                        }
-                        if (li2) {
-                            li2.destroy();
                         }
                     });
                 },
@@ -698,12 +694,12 @@ function init() {
                 break;
             case 'bookmark-edit':
                 var li = currentContext.parentNode;
-                var id = li.id.replace(/(neat\-tree|results)\-item\-/, '');
+                var id = li.id.replace(/(neat\-tree)\-item\-/, '');
                 actions.editBookmarkFolder(id);
                 break;
             case 'bookmark-delete':
                 var li = currentContext.parentNode;
-                var id = li.id.replace(/(neat\-tree|results)\-item\-/, '');
+                var id = li.id.replace(/(neat\-tree)\-item\-/, '');
                 actions.deleteBookmark(id);
                 break;
         }
@@ -854,7 +850,7 @@ function init() {
                 break;
             case 113: // F2, not for Mac
                 if (os == 'mac') break;
-                var id = li.id.replace(/(neat\-tree|results)\-item\-/, '');
+                var id = li.id.replace(/(neat\-tree)\-item\-/, '');
                 actions.editBookmarkFolder(id);
                 break;
             case 46: // delete
@@ -876,7 +872,7 @@ function init() {
                 /* falls through */
             case 46: // delete
                 e.preventDefault();
-                var id = li.id.replace(/(neat\-tree|results)\-item\-/, '');
+                var id = li.id.replace(/(neat\-tree)\-item\-/, '');
                 if (li.hasClass('parent')) {
                     chrome.bookmarks.getChildren(id, function(children) {
                         var urlsLen = Array.map(function(c) {
