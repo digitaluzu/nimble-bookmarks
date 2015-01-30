@@ -389,7 +389,7 @@ function init() {
             });
         },
 
-        openBookmarks: function(urls, selected) {
+        openBookmarks: function(li, urls, selected) {
             var urlsLen = urls.length;
             var open = function() {
                 chrome.tabs.create({
@@ -408,14 +408,17 @@ function init() {
                     dialog: _m('confirmOpenBookmarks', '' + urlsLen),
                     button1: '<strong>' + _m('open') + '</strong>',
                     button2: _m('nope'),
-                    fn1: open
+                    fn1: open,
+                    fn2: function() {
+                        li.querySelector('a, span').focus();
+                    }
                 });
             } else {
                 open();
             }
         },
 
-        openBookmarksNewWindow: function(urls, incognito) {
+        openBookmarksNewWindow: function(li, urls, incognito) {
             var urlsLen = urls.length;
             var open = function() {
                 chrome.windows.create({
@@ -429,7 +432,10 @@ function init() {
                     dialog: dialog,
                     button1: '<strong>' + _m('open') + '</strong>',
                     button2: _m('nope'),
-                    fn1: open
+                    fn1: open,
+                    fn2: function() {
+                        li.querySelector('a, span').focus();
+                    }
                 });
             } else {
                 open();
@@ -475,9 +481,9 @@ function init() {
         },
 
         deleteBookmark: function(id) {
-            var li1 = $('neat-tree-item-' + id);
+            var li = $('neat-tree-item-' + id);
 
-            var bookmarkName = '<cite>' + li1.textContent.trim() + '</cite>';
+            var bookmarkName = '<cite>' + li.textContent.trim() + '</cite>';
             var dialog = _m('confirmDeleteBookmark', [bookmarkName]);
             ConfirmDialog.open({
                 dialog: dialog,
@@ -485,15 +491,15 @@ function init() {
                 button2: _m('nope'),
                 fn1: function() {
                     chrome.bookmarks.remove(id, function() {
-                        if (li1) {
-                            var nearLi1 = li1.nextElementSibling || li1.previousElementSibling;
-                            li1.destroy();
+                        if (li) {
+                            var nearLi1 = li.nextElementSibling || li.previousElementSibling;
+                            li.destroy();
                             if (nearLi1) nearLi1.querySelector('a, span').focus();
                         }
                     });
                 },
                 fn2: function() {
-                    li1.querySelector('a, span').focus();
+                    li.querySelector('a, span').focus();
                 }
             });
         },
@@ -530,6 +536,7 @@ function init() {
         }
     };
 
+    // For performing bookmark actions via keyboard commands.
     var middleClickBgTab = !!localStorage.middleClickBgTab;
     var leftClickNewTab = !!localStorage.leftClickNewTab;
     var noOpenBookmark = false;
@@ -568,9 +575,9 @@ function init() {
                 var urlsLen = urls.length;
                 if (!urlsLen) return;
                 if (ctrlMeta) { // ctrl/meta click
-                    actions.openBookmarks(urls, middleClickBgTab ? shift : !shift);
+                    actions.openBookmarks(li, urls, middleClickBgTab ? shift : !shift);
                 } else if (shift) { // shift click
-                    actions.openBookmarksNewWindow(urls);
+                    actions.openBookmarksNewWindow(li, urls);
                 }
             });
         }
@@ -730,15 +737,15 @@ function init() {
             switch (el.id) {
                 case 'folder-window':
                     if (noURLS) return;
-                    actions.openBookmarks(urls);
+                    actions.openBookmarks(li, urls);
                     break;
                 case 'folder-new-window':
                     if (noURLS) return;
-                    actions.openBookmarksNewWindow(urls);
+                    actions.openBookmarksNewWindow(li, urls);
                     break;
                 case 'folder-new-incognito-window':
                     if (noURLS) return;
-                    actions.openBookmarksNewWindow(urls, true);
+                    actions.openBookmarksNewWindow(li, urls, true);
                     break;
                 case 'folder-edit':
                     actions.editBookmarkFolder(id);
