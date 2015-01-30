@@ -105,7 +105,7 @@
         "message": "Neater Bookmarks"
     },
     "general": {
-        "message": "General Settings"
+        "message": "General"
     },
     "ignore": {
         "message": "Ignore"
@@ -216,7 +216,7 @@
         "message": "Reset"
     },
     "resetSettings": {
-        "message": "Reset Settings"
+        "message": "Reset"
     },
     "resetText": {
         "message": "Reset all $extName$ options to default.",

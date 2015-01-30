@@ -97,6 +97,13 @@ h2{
 	width: 4em;
 	-webkit-user-select: none;
 }
+#general-table {
+	margin-top: -6px;
+}
+#general-table td {
+	vertical-align: top;
+	padding: 2px;
+}
 fieldset{
 	border: 1px solid #ccc;
 	border-radius: 5px;
