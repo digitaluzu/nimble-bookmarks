@@ -342,7 +342,7 @@ function init() {
     // Bookmark handling
     var dontConfirmOpenFolder = !!localStorage.dontConfirmOpenFolder;
     var bookmarkClickStayOpen = !!localStorage.bookmarkClickStayOpen;
-    var openBookmarksLimit = 10;
+    var openBookmarksLimit = 5;
     var actions = {
         openBookmark: function(url) {
             chrome.tabs.getSelected(null, function(tab) {
