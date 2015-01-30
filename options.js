@@ -19,19 +19,19 @@ function init() {
     var extName = chrome.i18n.getMessage('extName');
     $('resetText').innerHTML = chrome.i18n.getMessage('resetText', [extName]);
     $('reset').innerHTML = chrome.i18n.getMessage('reset');
-    var neaterEmail = '<a href="mailto:neaterbookmarks@gmail.com?body=%0d%0dSent from Neater Bookmarks Options page">neaterbookmarks@gmail.com</a>';
-    $('optionsFooterText1').innerHTML = chrome.i18n.getMessage('optionsFooterText1', [neaterEmail]);
-    var neaterGithub = 'GitHub: <a href="http://goo.gl/s2kVi">http://goo.gl/s2kVi</a>';
-    $('optionsFooterText2').innerHTML = chrome.i18n.getMessage('optionsFooterText2', [extName, neaterGithub]);
-    var neaterFaq = '<a href="http://goo.gl/DDMqE">http://goo.gl/DDMqE</a>';
-    $('optionsFooterText3').innerHTML = chrome.i18n.getMessage('optionsFooterText3', [neaterFaq]);
-    var neaterIssues = '<a href="http://goo.gl/Ct39y">http://goo.gl/Ct39y</a>';
-    $('optionsFooterText4').innerHTML = chrome.i18n.getMessage('optionsFooterText4', [neaterIssues]);
-    var neaterTranslate = 'WebTranslateIt: <a href="http://goo.gl/oDXMm">http://goo.gl/oDXMm</a>';
-    $('optionsFooterText6').innerHTML = chrome.i18n.getMessage('optionsFooterText6', [extName, neaterTranslate]);
-    var neatGithub = '<a href="http://github.com/cheeaun/neat-bookmarks">Neat Bookmarks</a>';
-    var linkCheeAun = '<a href="http://twitter.com/cheeaun">Lim Chee Aun</a>';
-    $('optionsFooterText7').innerHTML = chrome.i18n.getMessage('optionsFooterText7', [neatGithub, linkCheeAun]);
+
+    var github = 'GitHub: <a href="http://goo.gl/s2kVi">http://goo.gl/s2kVi</a>';
+    $('optionsFooterText2').innerHTML = chrome.i18n.getMessage('optionsFooterText2', [extName, github]);
+
+    var faq = '<a href="http://goo.gl/DDMqE">http://goo.gl/DDMqE</a>';
+    $('optionsFooterText3').innerHTML = chrome.i18n.getMessage('optionsFooterText3', [faq]);
+
+    var issues = '<a href="http://goo.gl/Ct39y">http://goo.gl/Ct39y</a>';
+    $('optionsFooterText4').innerHTML = chrome.i18n.getMessage('optionsFooterText4', [issues]);
+
+    var neaterGithub = '<a href="https://github.com/evanshultz/neater-bookmarks">Neater Bookmarks</a>';
+    var neaterAuthor = '@evanshultz';
+    $('optionsFooterText7').innerHTML = chrome.i18n.getMessage('optionsFooterText7', [neaterGithub, neaterAuthor]);
 }
 
 var _m = chrome.i18n.getMessage;

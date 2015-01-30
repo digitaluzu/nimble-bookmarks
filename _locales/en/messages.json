@@ -161,15 +161,6 @@
     "optionRememberPrevState": {
         "message": "Remember previous state (scroll position and opened folders)."
     },
-    "optionsFooterText1": {
-        "description": "Footer text for the Options page",
-        "message": "Email the developer at $neaterEmail$",
-        "placeholders": {
-            "neaterEmail": {
-                "content": "$1"
-            }
-        }
-    },
     "optionsFooterText2": {
         "message": "$extName$ is open source! $neaterGithub$",
         "placeholders": {
@@ -194,17 +185,6 @@
         "placeholders": {
             "neaterIssues": {
                 "content": "$1"
-            }
-        }
-    },
-    "optionsFooterText6": {
-        "message": "Help translate $extName$ at $neaterTranslate$",
-        "placeholders": {
-            "extName": {
-                "content": "$1"
-            },
-            "neaterTranslate": {
-                "content": "$2"
             }
         }
     },
