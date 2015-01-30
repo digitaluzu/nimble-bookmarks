@@ -1,6 +1,22 @@
 {
+    "confirmDeleteBookmark": {
+        "message": "Are you sure you want to delete the $bookmarkName$ bookmark?",
+        "placeholders": {
+            "bookmarkName": {
+                "content": "$1"
+            }
+        }
+    },
+    "confirmDeleteFolder": {
+        "message": "Are you sure you want to delete the $folderName$ folder?",
+        "placeholders": {
+            "folderName": {
+                "content": "$1"
+            }
+        }
+    },
     "confirmDeleteFolderSubfolders": {
-        "message": "Are you sure you want to delete $folderName$ folder and $subFolderCount$ sub-folder(s) in it?",
+        "message": "Are you sure you want to delete the $folderName$ folder and $subFolderCount$ sub-folder(s) in it?",
         "placeholders": {
             "folderName": {
                 "content": "$1"
@@ -11,7 +27,7 @@
         }
     },
     "confirmDeleteFolderBookmarks": {
-        "message": "Are you sure you want to delete $folderName$ folder and $bookmarkCount$ bookmark(s) in it?",
+        "message": "Are you sure you want to delete the $folderName$ folder and $bookmarkCount$ bookmark(s) in it?",
         "placeholders": {
             "bookmarkCount": {
                 "content": "$2"
@@ -22,7 +38,7 @@
         }
     },
     "confirmDeleteFolderSubfoldersBookmarks": {
-        "message": "Are you sure you want to delete $folderName$ folder, $subFolderCount$ sub-folder(s) and $bookmarkCount$ bookmark(s) in it?",
+        "message": "Are you sure you want to delete the $folderName$ folder, $subFolderCount$ sub-folder(s) and $bookmarkCount$ bookmark(s) in it?",
         "placeholders": {
             "bookmarkCount": {
                 "content": "$3"

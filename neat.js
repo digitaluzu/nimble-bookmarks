@@ -477,14 +477,27 @@ function init() {
         deleteBookmark: function(id) {
             var li1 = $('neat-tree-item-' + id);
             var li2 = $('results-item-' + id);
-            chrome.bookmarks.remove(id, function() {
-                if (li1) {
-                    var nearLi1 = li1.nextElementSibling || li1.previousElementSibling;
-                    li1.destroy();
-                    if (nearLi1) nearLi1.querySelector('a, span').focus();
-                }
-                if (li2) {
-                    li2.destroy();
+
+            var bookmarkName = '<cite>' + li1.textContent.trim() + '</cite>';
+            var dialog = _m('confirmDeleteBookmark', [bookmarkName]);
+            ConfirmDialog.open({
+                dialog: dialog,
+                button1: '<strong>' + _m('delete') + '</strong>',
+                button2: _m('nope'),
+                fn1: function() {
+                    chrome.bookmarks.remove(id, function() {
+                        if (li1) {
+                            var nearLi1 = li1.nextElementSibling || li1.previousElementSibling;
+                            li1.destroy();
+                            if (nearLi1) nearLi1.querySelector('a, span').focus();
+                        }
+                        if (li2) {
+                            li2.destroy();
+                        }
+                    });
+                },
+                fn2: function() {
+                    li1.querySelector('a, span').focus();
                 }
             });
         },
@@ -492,38 +505,32 @@ function init() {
         deleteBookmarks: function(id, bookmarkCount, folderCount) {
             var li = $('neat-tree-item-' + id);
             var item = li.querySelector('span');
-            if (bookmarkCount || folderCount) {
-                var dialog = '';
-                var folderName = '<cite>' + item.textContent.trim() + '</cite>';
-                if (bookmarkCount && folderCount) {
-                    dialog = _m('confirmDeleteFolderSubfoldersBookmarks', [folderName, folderCount, bookmarkCount]);
-                } else if (bookmarkCount) {
-                    dialog = _m('confirmDeleteFolderBookmarks', [folderName, bookmarkCount]);
-                } else {
-                    dialog = _m('confirmDeleteFolderSubfolders', [folderName, folderCount]);
-                }
-                ConfirmDialog.open({
-                    dialog: dialog,
-                    button1: '<strong>' + _m('delete') + '</strong>',
-                    button2: _m('nope'),
-                    fn1: function() {
-                        chrome.bookmarks.removeTree(id, function() {
-                            li.destroy();
-                        });
-                        var nearLi = li.nextElementSibling || li.previousElementSibling;
-                        if (nearLi) nearLi.querySelector('a, span').focus();
-                    },
-                    fn2: function() {
-                        li.querySelector('a, span').focus();
-                    }
-                });
+            var dialog = '';
+            var folderName = '<cite>' + item.textContent.trim() + '</cite>';
+            if (bookmarkCount && folderCount) {
+                dialog = _m('confirmDeleteFolderSubfoldersBookmarks', [folderName, folderCount, bookmarkCount]);
+            } else if (bookmarkCount) {
+                dialog = _m('confirmDeleteFolderBookmarks', [folderName, bookmarkCount]);
+            } else if (folderCount) {
+                dialog = _m('confirmDeleteFolderSubfolders', [folderName, folderCount]);
             } else {
-                chrome.bookmarks.removeTree(id, function() {
-                    li.destroy();
-                });
-                var nearLi = li.nextElementSibling || li.previousElementSibling;
-                if (nearLi) nearLi.querySelector('a, span').focus();
+                dialog = _m('confirmDeleteFolder', [folderName]);
             }
+            ConfirmDialog.open({
+                dialog: dialog,
+                button1: '<strong>' + _m('delete') + '</strong>',
+                button2: _m('nope'),
+                fn1: function() {
+                    chrome.bookmarks.removeTree(id, function() {
+                        li.destroy();
+                    });
+                    var nearLi = li.nextElementSibling || li.previousElementSibling;
+                    if (nearLi) nearLi.querySelector('a, span').focus();
+                },
+                fn2: function() {
+                    li.querySelector('a, span').focus();
+                }
+            });
         }
     };
 
