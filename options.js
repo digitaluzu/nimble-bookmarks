@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     $('reset-button').addEventListener('click', function() {
         localStorage.clear();
-        location.reload();
+        window.location.reload();
         alert(_m('extName') + ' has been reset.');
     }, false);
 });
