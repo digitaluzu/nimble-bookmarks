@@ -16,9 +16,13 @@ function init() {
     $('optionConfirmOpenFolder').innerHTML = chrome.i18n.getMessage('optionConfirmOpenFolder');
     $('optionRememberPrevState').innerHTML = chrome.i18n.getMessage('optionRememberPrevState');
     $('resetSettings').innerHTML = chrome.i18n.getMessage('resetSettings');
+
     var extName = chrome.i18n.getMessage('extName');
-    $('resetText').innerHTML = chrome.i18n.getMessage('resetText', [extName]);
-    $('reset').innerHTML = chrome.i18n.getMessage('reset');
+
+    $('resetTextHotkey').innerHTML = chrome.i18n.getMessage('resetTextHotkey', [extName]);
+    $('resetHotkey').innerHTML = chrome.i18n.getMessage('reset');
+    $('resetTextAll').innerHTML = chrome.i18n.getMessage('resetTextAll', [extName]);
+    $('resetAll').innerHTML = chrome.i18n.getMessage('reset');
 
     var github = 'GitHub: <a href="http://goo.gl/s2kVi">http://goo.gl/s2kVi</a>';
     $('optionsFooterText2').innerHTML = chrome.i18n.getMessage('optionsFooterText2', [extName, github]);
@@ -75,10 +79,13 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.dontRememberState = rememberPrevState.checked ? '' : '1';
     });
 
-    $('reset-button').addEventListener('click', function() {
+    $('reset-hotkey-button').addEventListener('click', function() {
+        // TODO: unset all hotkey bindings
+    }, false);
+
+    $('reset-all-button').addEventListener('click', function() {
         localStorage.clear();
         window.location.reload();
-        alert(_m('extName') + ' has been reset.');
     }, false);
 });
 

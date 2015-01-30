@@ -218,7 +218,15 @@
     "resetSettings": {
         "message": "Reset"
     },
-    "resetText": {
+    "resetTextHotkey": {
+        "message": "Unset all $extName$ hotkey bindings.",
+        "placeholders": {
+            "extName": {
+                "content": "$1"
+            }
+        }
+    },
+    "resetTextAll": {
         "message": "Reset all $extName$ options to default.",
         "placeholders": {
             "extName": {

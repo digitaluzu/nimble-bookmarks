@@ -29,9 +29,15 @@
 </fieldset>
 <fieldset>
     <legend id="resetSettings"></legend>
-    <div>
-        <span id="resetText"></span> <button type="button" id="reset-button" name="reset"><span id="reset"></span></button>
-    </div>
+    <table id="reset-table">
+    <tr>
+        <td><button type="button" id="reset-hotkey-button" name="reset"><span id="resetHotkey"></span></button></td>
+        <td><span id="resetTextHotkey"></span></td>
+    </tr><tr>
+        <td><button type="button" id="reset-all-button" name="reset"><span id="resetAll"></span></button></td>
+        <td><span id="resetTextAll"></span></td>
+    </tr>
+    </table>
 </fieldset>
 <div id="footer">
     <span id="optionsFooterText2"></span><br />
