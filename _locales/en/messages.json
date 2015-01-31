@@ -93,12 +93,6 @@
     "edit": {
         "message": "Edit..."
     },
-    "setHotkey": {
-        "message": "Set hotkey..."
-    },
-    "unsetHotkey": {
-        "message": "Unset hotkey"
-    },
     "errorOccured": {
         "message": "Oops, an error occurred."
     },

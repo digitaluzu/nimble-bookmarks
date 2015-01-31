@@ -45,8 +45,6 @@ function init() {
         'bookmark-new-incognito-window': 'openIncognitoWindow',
         'bookmark-edit': 'edit',
         'bookmark-delete': 'deleteEllipsis',
-        'bookmark-set-hotkey': 'setHotkey',
-        'bookmark-unset-hotkey': 'unsetHotkey',
         'folder-window': 'openBookmarks',
         'folder-new-window': 'openBookmarksNewWindow',
         'folder-new-incognito-window': 'openBookmarksIncognitoWindow',
