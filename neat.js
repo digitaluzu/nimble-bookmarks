@@ -78,8 +78,10 @@ function init() {
         localStorage.hotkeys = JSON.stringify(hotkeys);
     }
     function unsetHotkey(id) {
-        delete hotkeys[id];
-        localStorage.hotkeys = JSON.stringify(hotkeys);
+        if (id in hotkeys) {
+            delete hotkeys[id];
+            localStorage.hotkeys = JSON.stringify(hotkeys);
+        }
     }
     function getHotkey(id) {
         if (id in hotkeys) {
@@ -656,6 +658,11 @@ function init() {
                     }
                 }
             });
+        },
+
+        unsetHotkey: function(id) {
+            unsetHotkey(id);
+            unsetHotkeyText(id);
         }
     };
 
@@ -839,6 +846,9 @@ function init() {
                 actions.setHotkey(id, name.textContent);
                 break;
             case 'bookmark-unset-hotkey':
+                var li = currentContext.parentNode;
+                var id = li.id.replace(/(neat\-tree)\-item\-/, '');
+                actions.unsetHotkey(id);
                 break;
         }
         clearMenu();
