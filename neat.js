@@ -1023,6 +1023,7 @@ function init() {
                 if (!key) return;
 
                 // Trigger the hotkey if it exists.
+                key = key.toLowerCase();
                 var id = getHotkeyId(key);
                 if (id) {
                     var li = $('neat-tree-item-' + id);
