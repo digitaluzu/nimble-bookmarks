@@ -378,6 +378,10 @@ function init() {
                 url = 'http://' + url;
             }
             EditDialog.fn($('edit-dialog-name').value, url);
+
+            EditDialog.closeNoSave();
+        },
+        closeNoSave: function() {
             body.removeClass('needEdit');
         },
         fn: function() {}
@@ -1349,7 +1353,7 @@ function init() {
     var closeDialogs = function() {
         if (body.hasClass('needConfirm')) ConfirmDialog.fn2();
         ConfirmDialog.close();
-        if (body.hasClass('needEdit')) EditDialog.close();
+        if (body.hasClass('needEdit')) EditDialog.closeNoSave();
         if (body.hasClass('needSetHotkey')) HotkeyDialog.closeNoSave();
         if (body.hasClass('needAlert')) AlertDialog.close();
     };
