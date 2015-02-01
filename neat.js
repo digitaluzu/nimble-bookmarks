@@ -71,6 +71,22 @@ function init() {
     var rememberState = !localStorage.dontRememberState;
     var httpsPattern = /^https?:\/\//i;
 
+    // Hotkey-related functions.
+    var hotkeys = localStorage.hotkeys ? JSON.parse(localStorage.hotkeys) : [];
+    function setHotkey(id, hotkey) {
+        hotkeys[id] = hotkey;
+    }
+    function unsetHotkey(id) {
+        delete hotkeys[id];
+    }
+    function getHotkey(id) {
+        if (id in hotkeys) {
+            return hotkeys[id];
+        } else {
+            return '';
+        }
+    }
+
     // Adaptive bookmark tooltips
     var adaptBookmarkTooltips = function() {
         var bookmarks = document.querySelectorAll('li.child a');
@@ -349,6 +365,24 @@ function init() {
         return false;
     }, false);
 
+    // Hotkey input validation.
+    $('hotkey-dialog-hotkey').onkeypress = function(e) {
+        var key;
+        if (e.keyCode) key = e.keyCode;
+        else if (e.which) key = e.which;
+
+        // Allow enter, backspace...
+        if (key === 13 || key === 8) {
+            return true;
+        }
+
+        if (/[^A-Za-z0-9]/.test(String.fromCharCode(key))) {
+            return false;
+        }
+
+        return true;
+    };
+
     // Hotkey dialog
     var HotkeyDialog = window.HotkeyDialog = {
         open: function(opts) {
@@ -372,9 +406,11 @@ function init() {
         close: function() {
             var hotkeyInput = $('hotkey-dialog-hotkey');
             var hotkey = hotkeyInput.value;
-            // TODO: validate hotkey:
-
             HotkeyDialog.fn(hotkey);
+
+            HotkeyDialog.closeNoSave();
+        },
+        closeNoSave: function() {
             body.removeClass('needSetHotkey');
         },
         fn: function() {}
@@ -577,20 +613,12 @@ function init() {
         },
 
         setHotkey: function(id, name) {
-            // TODO:
-            // - get existing hotkey for this id if it exists
-            var hotkey = '1';
-
             HotkeyDialog.open({
                 dialog: _m('setHotkey'),
                 name: name,
-                hotkey: hotkey,
-                fn: function(_hotkey) {
-                    // TODO:
-                    // - if empty string.. remove hotkey for this id if it exists
-                    // - else, create/update hotkey for this id
-                    //
-                    // generate bookmarkHTML for this updated item
+                hotkey: getHotkey(id),
+                fn: function(hotkey) {
+                    
                 }
             });
         }
@@ -1291,7 +1319,7 @@ function init() {
         if (body.hasClass('needConfirm')) ConfirmDialog.fn2();
         ConfirmDialog.close();
         if (body.hasClass('needEdit')) EditDialog.close();
-        if (body.hasClass('needSetHotkey')) HotkeyDialog.close();
+        if (body.hasClass('needSetHotkey')) HotkeyDialog.closeNoSave();
         if (body.hasClass('needAlert')) AlertDialog.close();
     };
     document.addEventListener('keydown', function(e) {
