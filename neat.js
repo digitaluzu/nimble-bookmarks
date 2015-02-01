@@ -1248,9 +1248,3 @@ function init() {
         }, 1500);
     }
 })(window);
-
-onerror = function() {
-    chrome.extension.sendRequest({
-        error: [].slice.call(arguments)
-    });
-};
