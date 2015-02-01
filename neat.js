@@ -84,11 +84,21 @@ function init() {
         }
     }
     function getHotkey(id) {
-        if (id in hotkeys) {
+        if (hotkeys.hasOwnProperty(id)) {
             return hotkeys[id];
         } else {
             return '';
         }
+    }
+    function getHotkeyId(hotkey) {
+        for (var id in hotkeys) {
+            if (hotkeys.hasOwnProperty(id)) {
+                if (hotkeys[id] === hotkey) {
+                    return id;
+                }
+            }
+        }
+        return null;
     }
     function setHotkeyText(id, hotkey) {
         var li = $('neat-tree-item-' + id);
@@ -1011,6 +1021,15 @@ function init() {
             default:
                 var key = String.fromCharCode(keyCode).trim();
                 if (!key) return;
+
+                // Trigger the hotkey if it exists.
+                var id = getHotkeyId(key);
+                if (id) {
+                    var li = $('neat-tree-item-' + id);
+                    event = document.createEvent('MouseEvents');
+                    event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, e.ctrlKey, false, e.shiftKey, e.metaKey, 0, null);
+                    li.firstElementChild.dispatchEvent(event);
+                }
         }
     };
     $tree.addEventListener('keydown', treeKeyDown);
