@@ -39,20 +39,22 @@ function init() {
     // Some i18n
     $('edit-dialog-name').placeholder = _m('name');
     $('edit-dialog-url').placeholder = _m('url');
+    $('hotkey-dialog-hotkey').placeholder = _m('hotkey');
     $each({
         'bookmark-new-tab': 'openNewTab',
         'bookmark-new-window': 'openNewWindow',
         'bookmark-new-incognito-window': 'openIncognitoWindow',
         'bookmark-edit': 'edit',
         'bookmark-delete': 'deleteEllipsis',
-        'bookmark-set-hotkey': 'setHotkey',
+        'bookmark-set-hotkey': 'setHotkeyEllipsis',
         'bookmark-unset-hotkey': 'unsetHotkey',
         'folder-window': 'openBookmarks',
         'folder-new-window': 'openBookmarksNewWindow',
         'folder-new-incognito-window': 'openBookmarksIncognitoWindow',
         'folder-edit': 'edit',
         'folder-delete': 'deleteEllipsis',
-        'edit-dialog-button': 'save'
+        'edit-dialog-button': 'save',
+        'hotkey-dialog-button': 'save'
     }, function(msg, id) {
         var el = $(id),
             m = _m(msg);
@@ -341,6 +343,43 @@ function init() {
         fn: function() {}
     };
 
+    // Hotkey dialog event listener
+    $('hotkey-dialog').addEventListener('submit', function() {
+        HotkeyDialog.close();
+        return false;
+    }, false);
+
+    // Hotkey dialog
+    var HotkeyDialog = window.HotkeyDialog = {
+        open: function(opts) {
+            if (!opts) return;
+            $('hotkey-dialog-text').innerHTML = opts.dialog.widont();
+            if (opts.fn) HotkeyDialog.fn = opts.fn;
+
+            var name = $('hotkey-dialog-name');
+            name.value = opts.name;
+            name.disabled = true;
+            name.scrollLeft = 0; // very delicate, show first few words instead of last
+
+            var hotkey = $('hotkey-dialog-hotkey');
+            hotkey.disabled = false;
+            hotkey.value = opts.hotkey;
+            hotkey.focus();
+            hotkey.select();
+
+            body.addClass('needSetHotkey');
+        },
+        close: function() {
+            var hotkeyInput = $('hotkey-dialog-hotkey');
+            var hotkey = hotkeyInput.value;
+            // TODO: validate hotkey:
+
+            HotkeyDialog.fn(hotkey);
+            body.removeClass('needSetHotkey');
+        },
+        fn: function() {}
+    };
+
     // Bookmark handling
     var dontConfirmOpenFolder = !!localStorage.dontConfirmOpenFolder;
     var bookmarkClickStayOpen = !!localStorage.bookmarkClickStayOpen;
@@ -535,6 +574,25 @@ function init() {
                     li.querySelector('a, span').focus();
                 }
             });
+        },
+
+        setHotkey: function(id, name) {
+            // TODO:
+            // - get existing hotkey for this id if it exists
+            var hotkey = '1';
+
+            HotkeyDialog.open({
+                dialog: _m('setHotkey'),
+                name: name,
+                hotkey: hotkey,
+                fn: function(_hotkey) {
+                    // TODO:
+                    // - if empty string.. remove hotkey for this id if it exists
+                    // - else, create/update hotkey for this id
+                    //
+                    // generate bookmarkHTML for this updated item
+                }
+            });
         }
     };
 
@@ -710,6 +768,14 @@ function init() {
                 var li = currentContext.parentNode;
                 var id = li.id.replace(/(neat\-tree)\-item\-/, '');
                 actions.deleteBookmark(id);
+                break;
+            case 'bookmark-set-hotkey':
+                var li = currentContext.parentNode;
+                var id = li.id.replace(/(neat\-tree)\-item\-/, '');
+                var name = li.querySelector('i');
+                actions.setHotkey(id, name.textContent);
+                break;
+            case 'bookmark-unset-hotkey':
                 break;
         }
         clearMenu();
@@ -1225,10 +1291,11 @@ function init() {
         if (body.hasClass('needConfirm')) ConfirmDialog.fn2();
         ConfirmDialog.close();
         if (body.hasClass('needEdit')) EditDialog.close();
+        if (body.hasClass('needSetHotkey')) HotkeyDialog.close();
         if (body.hasClass('needAlert')) AlertDialog.close();
     };
     document.addEventListener('keydown', function(e) {
-        if (e.keyCode == 27 && (body.hasClass('needConfirm') || body.hasClass('needEdit') || body.hasClass('needAlert'))) { // esc
+        if (e.keyCode == 27 && (body.hasClass('needConfirm') || body.hasClass('needEdit') || body.hasClass('needSetHotkey') || body.hasClass('needAlert'))) { // esc
             e.preventDefault();
             closeDialogs();
         }

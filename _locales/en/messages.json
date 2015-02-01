@@ -93,7 +93,13 @@
     "edit": {
         "message": "Edit..."
     },
+    "hotkey": {
+        "message": "Hotkey"
+    },
     "setHotkey": {
+        "message": "Set Hotkey"
+    },
+    "setHotkeyEllipsis": {
         "message": "Set Hotkey..."
     },
     "unsetHotkey": {

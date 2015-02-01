@@ -302,7 +302,8 @@ menu[type=context].hide-editables #folder-delete{
 }
 .needAlert #cover,
 .needConfirm #cover,
-.needEdit #cover{
+.needEdit #cover,
+.needSetHotkey #cover{
 	left: 0;
 	opacity: 1;
 }
@@ -347,27 +348,32 @@ menu[type=context].hide-editables #folder-delete{
 	text-shadow: none;
 }
 
-#edit-dialog .dialog-text{
+#edit-dialog .dialog-text,
+#hotkey-dialog .dialog-text{
 	margin: 0;
 	font-weight: bold;
 }
-#edit-dialog input{
+#edit-dialog input,
+#hotkey-dialog input{
 	width: 100%;
 	padding: 2px;
 }
 #edit-dialog input:invalid{
 	outline-color: red;
 }
-#edit-dialog .buttons{
+#edit-dialog .buttons,
+#hotkey-dialog .buttons{
 	margin: 0;
 }
-#edit-dialog .buttons button{
+#edit-dialog .buttons button,
+#hotkey-dialog .buttons button{
 	font-weight: bold;
 }
 
 .needAlert #alert-dialog,
 .needConfirm #confirm-dialog,
-.needEdit #edit-dialog{
+.needEdit #edit-dialog,
+.needSetHotkey #hotkey-dialog{
 	top: 0;
 	opacity: 1;
 }
