@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     $('reset-hotkey-button').addEventListener('click', function() {
-        // TODO: unset all hotkey bindings
+        localStorage.removeItem('hotkeys');
     }, false);
 
     $('reset-all-button').addEventListener('click', function() {
