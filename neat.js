@@ -72,18 +72,42 @@ function init() {
     var httpsPattern = /^https?:\/\//i;
 
     // Hotkey-related functions.
-    var hotkeys = localStorage.hotkeys ? JSON.parse(localStorage.hotkeys) : [];
+    var hotkeys = localStorage.hotkeys ? JSON.parse(localStorage.hotkeys) : {};
     function setHotkey(id, hotkey) {
         hotkeys[id] = hotkey;
+        localStorage.hotkeys = JSON.stringify(hotkeys);
     }
     function unsetHotkey(id) {
         delete hotkeys[id];
+        localStorage.hotkeys = JSON.stringify(hotkeys);
     }
     function getHotkey(id) {
         if (id in hotkeys) {
             return hotkeys[id];
         } else {
             return '';
+        }
+    }
+    function setHotkeyText(id, hotkey) {
+        var li = $('neat-tree-item-' + id);
+        var a = li.querySelector('a');
+        var em = a.querySelector('em');
+
+        // Create element if it doesn't exist.
+        if (!em) {
+            em = document.createElement('em');
+            em.addClass('hotkey');
+            a.insertBefore(em, a.firstChild);
+        }
+
+        em.textContent = '[' + hotkey + ']';
+    }
+    function unsetHotkeyText(id) {
+        var li = $('neat-tree-item-' + id);
+        var a = li.querySelector('a');
+        var em = a.querySelector('em');
+        if (em) {
+            a.removeChild(em);
         }
     }
 
@@ -119,7 +143,7 @@ function init() {
         }
         tooltipURL = tooltipURL.htmlspecialchars();
         var name = title.htmlspecialchars() || (httpsPattern.test(url) ? url.replace(httpsPattern, '') : _m('noTitle'));
-        return '<a href="' + u + '"' + ' title="' + tooltipURL + '" tabindex="0" ' + extras + '>' + '<b class="TODO_hotkey"></b><img src="' + favicon + '" width="16" height="16" alt=""><i>' + name + '</i>' + '</a>';
+        return '<a href="' + u + '"' + ' title="' + tooltipURL + '" tabindex="0" ' + extras + '>' + '<img src="' + favicon + '" width="16" height="16" alt=""><i>' + name + '</i>' + '</a>';
     };
 
     var generateHTML = function(data, level) {
@@ -405,7 +429,7 @@ function init() {
         },
         close: function() {
             var hotkeyInput = $('hotkey-dialog-hotkey');
-            var hotkey = hotkeyInput.value;
+            var hotkey = hotkeyInput.value.toLowerCase();
             HotkeyDialog.fn(hotkey);
 
             HotkeyDialog.closeNoSave();
@@ -618,7 +642,14 @@ function init() {
                 name: name,
                 hotkey: getHotkey(id),
                 fn: function(hotkey) {
-                    
+                    // If not alphanumeric or is empty string...
+                    if (/[^a-z0-9]|(^$)/.test(hotkey)) {
+                        unsetHotkey(id);
+                        unsetHotkeyText(id);
+                    } else {
+                        setHotkey(id, hotkey);
+                        setHotkeyText(id, hotkey);
+                    }
                 }
             });
         }
