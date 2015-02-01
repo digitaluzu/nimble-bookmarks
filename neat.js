@@ -316,9 +316,9 @@ function init() {
     };
 
     // Edit dialog event listener
-    $('edit-dialog').addEventListener('submit', function() {
+    $('edit-dialog').addEventListener('submit', function(e) {
         EditDialog.close();
-        return false;
+        e.preventDefault();
     }, false);
 
     // Edit dialog
@@ -360,9 +360,9 @@ function init() {
     };
 
     // Hotkey dialog event listener
-    $('hotkey-dialog').addEventListener('submit', function() {
+    $('hotkey-dialog').addEventListener('submit', function(e) {
         HotkeyDialog.close();
-        return false;
+        e.preventDefault();
     }, false);
 
     // Hotkey input validation.
