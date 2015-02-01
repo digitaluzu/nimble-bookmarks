@@ -203,6 +203,11 @@ function init() {
         var html = generateHTML(tree[0].children);
         $tree.innerHTML = html;
 
+        // Initialize hotkey text display...
+        for (var key in hotkeys) {
+            setHotkeyText(key, hotkeys[key]);
+        }
+        
         // recall scroll position (from top of popup) when tree opened
         if (rememberState) $tree.scrollTop = localStorage.scrollTop || 0;
 
