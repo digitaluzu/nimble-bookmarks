@@ -1,5 +1,5 @@
 /* jshint unused: true, undef: true */
-/* global window, document, localStorage, $, $each, setTimeout, screen */
+/* global window, document, localStorage, $, $each, setTimeout, screen, clearInterval */
 
 window.addEventListener('load', init, false);
 
