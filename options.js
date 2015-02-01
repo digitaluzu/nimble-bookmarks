@@ -8,7 +8,7 @@ function init() {
     $('extName').innerHTML = chrome.i18n.getMessage('extName');
     $('version').innerHTML = chrome.app.getDetails().version; // undocumented method!
     $('options').innerHTML = chrome.i18n.getMessage('options');
-    $('general').innerHTML = chrome.i18n.getMessage('general');
+    $('generalSettings').innerHTML = chrome.i18n.getMessage('generalSettings');
     $('optionClickNewTab').innerHTML = chrome.i18n.getMessage('optionClickNewTab');
     $('optionOpenNewTab').innerHTML = chrome.i18n.getMessage('optionOpenNewTab');
     $('optionCloseUnusedFolders').innerHTML = chrome.i18n.getMessage('optionCloseUnusedFolders');

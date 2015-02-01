@@ -85,19 +85,19 @@
         "message": "Delete"
     },
     "editBookmark": {
-        "message": "Edit bookmark"
+        "message": "Edit Bookmark"
     },
     "editFolder": {
-        "message": "Edit folder"
+        "message": "Edit Folder"
     },
     "edit": {
         "message": "Edit..."
     },
     "setHotkey": {
-        "message": "Set hotkey..."
+        "message": "Set Hotkey..."
     },
     "unsetHotkey": {
-        "message": "Unset hotkey"
+        "message": "Unset Hotkey"
     },
     "errorOccured": {
         "message": "Oops, an error occurred."
@@ -110,11 +110,8 @@
         "description": "The extension name.",
         "message": "Neater Bookmarks"
     },
-    "general": {
+    "generalSettings": {
         "message": "General"
-    },
-    "ignore": {
-        "message": "Ignore"
     },
     "name": {
         "description": "Name of bookmark or folder.",
@@ -208,15 +205,9 @@
     "options": {
         "message": "Options"
     },
-    "optionZoom": {
-        "message": "Zoom"
-    },
     "reportedToDeveloper": {
         "description": "A message for an error occurred in the extension, has been reported to the developer.",
         "message": "This has been reported to the developer."
-    },
-    "reportError": {
-        "message": "Report Error"
     },
     "reset": {
         "message": "Reset"
