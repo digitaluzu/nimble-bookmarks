@@ -131,6 +131,11 @@ fieldset p{
 	line-height: 2em;
 }
 
+#footer ul {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
 /* current Gmail-style scrollbar */
 /*::-webkit-scrollbar {
 	width: 7px;

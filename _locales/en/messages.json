@@ -110,11 +110,11 @@
     },
     "extDesc": {
         "description": "The extension description.",
-        "message": "A neater bookmarks tree popup."
+        "message": "Quick and compact access to your bookmarks."
     },
     "extName": {
         "description": "The extension name.",
-        "message": "Neater Bookmarks"
+        "message": "Nimble Bookmarks"
     },
     "generalSettings": {
         "message": "General"
@@ -153,54 +153,27 @@
         "message": "Open in New Window"
     },
     "optionClickNewTab": {
-        "message": "Left-click opens bookmark in new tab."
+        "message": "Open bookmarks in new tab."
     },
     "optionCloseUnusedFolders": {
         "message": "Close unused folders when opening a folder."
     },
     "optionConfirmOpenFolder": {
-        "message": "Display confirmation when opening a lot of bookmarks from a folder."
+        "message": "Display confirmation when opening a lot of bookmarks at once."
     },
     "optionRememberPrevState": {
-        "message": "Remember previous state (scroll position and opened folders)."
+        "message": "Remember previously opened folders."
     },
-    "optionsFooterText2": {
-        "message": "$extName$ is open source! $neaterGithub$",
+    "optionsFooterTextHomepage": {
+        "message": "$extName$ on GitHub:",
         "placeholders": {
             "extName": {
                 "content": "$1"
-            },
-            "neaterGithub": {
-                "content": "$2"
             }
         }
     },
-    "optionsFooterText3": {
-        "message": "FAQ: $neaterFaq$",
-        "placeholders": {
-            "neaterFaq": {
-                "content": "$1"
-            }
-        }
-    },
-    "optionsFooterText4": {
-        "message": "View issues or submit a new one: $neaterIssues$",
-        "placeholders": {
-            "neaterIssues": {
-                "content": "$1"
-            }
-        }
-    },
-    "optionsFooterText7": {
-        "message": "Based on $neatGithub$ by $linkCheeAun$",
-        "placeholders": {
-            "linkCheeAun": {
-                "content": "$2"
-            },
-            "neatGithub": {
-                "content": "$1"
-            }
-        }
+    "optionsFooterTextIssues": {
+        "message": "Bug? Feature Request? View issues or submit a new one:"
     },
     "options": {
         "message": "Options"

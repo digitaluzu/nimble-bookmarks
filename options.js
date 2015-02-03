@@ -22,18 +22,11 @@ function init() {
     $('resetTextAll').innerHTML = chrome.i18n.getMessage('resetTextAll', [extName]);
     $('resetAll').innerHTML = chrome.i18n.getMessage('reset');
 
-    var github = 'GitHub: <a href="http://goo.gl/s2kVi">http://goo.gl/s2kVi</a>';
-    $('optionsFooterText2').innerHTML = chrome.i18n.getMessage('optionsFooterText2', [extName, github]);
+    $('optionsFooterTextHomepage').innerHTML = chrome.i18n.getMessage('optionsFooterTextHomepage', [extName]);
+    $('optionsFooterTextHomepageURL').innerHTML = '<a href="https://github.com/digitaluzu/nimble-bookmarks">https://github.com/digitaluzu/nimble-bookmarks</a>';
 
-    var faq = '<a href="http://goo.gl/DDMqE">http://goo.gl/DDMqE</a>';
-    $('optionsFooterText3').innerHTML = chrome.i18n.getMessage('optionsFooterText3', [faq]);
-
-    var issues = '<a href="http://goo.gl/Ct39y">http://goo.gl/Ct39y</a>';
-    $('optionsFooterText4').innerHTML = chrome.i18n.getMessage('optionsFooterText4', [issues]);
-
-    var neaterGithub = '<a href="https://github.com/evanshultz/neater-bookmarks">Neater Bookmarks</a>';
-    var neaterAuthor = '@evanshultz';
-    $('optionsFooterText7').innerHTML = chrome.i18n.getMessage('optionsFooterText7', [neaterGithub, neaterAuthor]);
+    $('optionsFooterTextIssues').innerHTML = chrome.i18n.getMessage('optionsFooterTextIssues');
+    $('optionsFooterTextIssuesURL').innerHTML = '<a href="https://github.com/digitaluzu/nimble-bookmarks/issues">https://github.com/digitaluzu/nimble-bookmarks/issues</a>';
 }
 
 var _m = chrome.i18n.getMessage;
@@ -46,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     clickNewTab.addEventListener('change', function() {
         localStorage.leftClickNewTab = clickNewTab.checked ? '1' : '';
     });
-    
+
     var closeUnusedFolders = $('close-unused-folders');
     closeUnusedFolders.checked = !!localStorage.closeUnusedFolders;
     closeUnusedFolders.addEventListener('change', function() {

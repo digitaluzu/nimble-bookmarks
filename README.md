@@ -1,7 +1,7 @@
 # Nimble Bookmarks
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/digitaluzu/nimble-bookmarks/master/LICENSE)
 
-A Chrome extension for quickly and compactly accessing your bookmarks.
+A Chrome extension for quick and compact access to your bookmarks.
 
 * __Compact tree view__ takes up less space than the default bookmarks bar.
   * :sparkles: 2.5% screen space savings on a 1440x900 display.
