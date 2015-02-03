@@ -222,9 +222,6 @@ function init() {
 
         refreshHotkeyText();
 
-        // recall scroll position (from top of popup) when tree opened
-        if (rememberState) $tree.scrollTop = localStorage.scrollTop || 0;
-
         var focusID = localStorage.focusID;
         if (typeof focusID !== 'undefined' && focusID !== null) {
             var focusEl = $('neat-tree-item-' + focusID);
@@ -1409,12 +1406,4 @@ function init() {
     setTimeout(function() {
         body.addClass('transitional');
     }, 10);
-
-    // Fix stupid wrong offset of the page on Mac
-    if (os == 'mac') {
-        setTimeout(function() {
-            var top = body.scrollTop;
-            if (top !== 0) body.scrollTop = 0;
-        }, 1500);
-    }
 })(window);
