@@ -19,33 +19,6 @@ body.linux{
 body.transitional{
 	-webkit-transition-property: height;
 }
-body[data-zoom='90']>*:not(menu),
-body[data-zoom='90'] menu[type=context] command{
-	zoom: .9;
-}
-body[data-zoom='90'] #drop-overlay.bookmark{ /* zooming out makes the line too hard to see */
-	border-top: 0;
-}
-body[data-zoom='110']>*:not(menu),
-body[data-zoom='110'] menu[type=context] command{
-	zoom: 1.1;
-}
-body[data-zoom='120']>*:not(menu),
-body[data-zoom='120'] menu[type=context] command{
-	zoom: 1.2;
-}
-body[data-zoom='130']>*:not(menu),
-body[data-zoom='130'] menu[type=context] command{
-	zoom: 1.3;
-}
-body[data-zoom='140']>*:not(menu),
-body[data-zoom='140'] menu[type=context] command{
-	zoom: 1.4;
-}
-body[data-zoom='150']>*:not(menu),
-body[data-zoom='150'] menu[type=context] command{
-	zoom: 1.5;
-}
 input{
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
