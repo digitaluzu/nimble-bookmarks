@@ -470,7 +470,6 @@ function init() {
 
     // Bookmark handling
     var dontConfirmOpenFolder = !!localStorage.dontConfirmOpenFolder;
-    var bookmarkClickStayOpen = !!localStorage.bookmarkClickStayOpen;
     var openBookmarksLimit = 5;
     var actions = {
         openBookmark: function(url) {
@@ -484,7 +483,7 @@ function init() {
                 chrome.tabs.update(tab.id, {
                     url: decodedURL
                 });
-                if (!bookmarkClickStayOpen) setTimeout(window.close, 200);
+                setTimeout(window.close, 200);
             });
         },
 
@@ -501,7 +500,7 @@ function init() {
                         chrome.tabs.update(tab.id, {
                             url: url
                         });
-                        if (!bookmarkClickStayOpen) setTimeout(window.close, 200);
+                        setTimeout(window.close, 200);
                     } else {
                         open();
                     }
@@ -689,7 +688,6 @@ function init() {
     };
 
     // For performing bookmark actions via keyboard commands.
-    var middleClickBgTab = !!localStorage.middleClickBgTab;
     var leftClickNewTab = !!localStorage.leftClickNewTab;
     var noOpenBookmark = false;
     var bookmarkHandler = function(e) {
@@ -705,7 +703,7 @@ function init() {
         if (el.tagName == 'A') {
             var url = el.href;
             if (ctrlMeta) { // ctrl/meta click
-                actions.openBookmarkNewTab(url, middleClickBgTab ? shift : !shift);
+                actions.openBookmarkNewTab(url, !shift);
             } else { // click
                 if (shift) {
                     actions.openBookmarkNewWindow(url);
@@ -727,7 +725,7 @@ function init() {
                 var urlsLen = urls.length;
                 if (!urlsLen) return;
                 if (ctrlMeta) { // ctrl/meta click
-                    actions.openBookmarks(li, urls, middleClickBgTab ? shift : !shift);
+                    actions.openBookmarks(li, urls, !shift);
                 } else if (shift) { // shift click
                     actions.openBookmarksNewWindow(li, urls);
                 }

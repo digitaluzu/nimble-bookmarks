@@ -10,9 +10,7 @@ function init() {
     $('options').innerHTML = chrome.i18n.getMessage('options');
     $('generalSettings').innerHTML = chrome.i18n.getMessage('generalSettings');
     $('optionClickNewTab').innerHTML = chrome.i18n.getMessage('optionClickNewTab');
-    $('optionOpenNewTab').innerHTML = chrome.i18n.getMessage('optionOpenNewTab');
     $('optionCloseUnusedFolders').innerHTML = chrome.i18n.getMessage('optionCloseUnusedFolders');
-    $('optionPopupStays').innerHTML = chrome.i18n.getMessage('optionPopupStays');
     $('optionConfirmOpenFolder').innerHTML = chrome.i18n.getMessage('optionConfirmOpenFolder');
     $('optionRememberPrevState').innerHTML = chrome.i18n.getMessage('optionRememberPrevState');
     $('resetSettings').innerHTML = chrome.i18n.getMessage('resetSettings');
@@ -48,23 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
     clickNewTab.addEventListener('change', function() {
         localStorage.leftClickNewTab = clickNewTab.checked ? '1' : '';
     });
-
-    var openNewTabBg = $('open-new-tab-bg');
-    openNewTabBg.checked = !!localStorage.middleClickBgTab;
-    openNewTabBg.addEventListener('change', function() {
-        localStorage.middleClickBgTab = openNewTabBg.checked ? '1' : '';
-    });
-
+    
     var closeUnusedFolders = $('close-unused-folders');
     closeUnusedFolders.checked = !!localStorage.closeUnusedFolders;
     closeUnusedFolders.addEventListener('change', function() {
         localStorage.closeUnusedFolders = closeUnusedFolders.checked ? '1' : '';
-    });
-
-    var popupStayOpen = $('popup-stay-open');
-    popupStayOpen.checked = !!localStorage.bookmarkClickStayOpen;
-    popupStayOpen.addEventListener('change', function() {
-        localStorage.bookmarkClickStayOpen = popupStayOpen.checked ? '1' : '';
     });
 
     var confirmOpenFolder = $('confirm-open-folder');

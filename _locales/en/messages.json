@@ -161,12 +161,6 @@
     "optionConfirmOpenFolder": {
         "message": "Display confirmation when opening a lot of bookmarks from a folder."
     },
-    "optionOpenNewTab": {
-        "message": "Middle-click or control-click opens bookmark in new background tab (instead of foreground)."
-    },
-    "optionPopupStays": {
-        "message": "Popup stays open when opening (left-clicking) bookmarks."
-    },
     "optionRememberPrevState": {
         "message": "Remember previous state (scroll position and opened folders)."
     },
