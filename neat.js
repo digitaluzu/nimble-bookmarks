@@ -122,6 +122,13 @@ function init() {
             a.removeChild(em);
         }
     }
+    function refreshHotkeyText() {
+        for (var id in hotkeys) {
+            if (hotkeys.hasOwnProperty(id)) {
+                setHotkeyText(id, hotkeys[id]);
+            }
+        }
+    }
 
     // Adaptive bookmark tooltips
     var adaptBookmarkTooltips = function() {
@@ -213,11 +220,8 @@ function init() {
         var html = generateHTML(tree[0].children);
         $tree.innerHTML = html;
 
-        // Initialize hotkey text display...
-        for (var key in hotkeys) {
-            setHotkeyText(key, hotkeys[key]);
-        }
-        
+        refreshHotkeyText();
+
         // recall scroll position (from top of popup) when tree opened
         if (rememberState) $tree.scrollTop = localStorage.scrollTop || 0;
 
@@ -280,6 +284,9 @@ function init() {
                 var ul = div.querySelector('ul');
                 ul.inject(parent);
                 div.destroy();
+
+                refreshHotkeyText();
+
                 setTimeout(adaptBookmarkTooltips, 100);
             });
         }
