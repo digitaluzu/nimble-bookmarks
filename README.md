@@ -7,6 +7,10 @@ A Chrome extension for quick and compact access to your bookmarks.
   * :sparkles: 2.5% screen space savings on a 1440x900 display.
 * Assign __keyboard hotkeys__ for quick access to your bookmarks.
 
+<p align="center">
+<img src="https://raw.github.com/digitaluzu/nimble-bookmarks/screenshots/screenshot_0.png"/>
+</p>
+
 # Usage
 ### Basic Navigation
 * Open the Nimble Bookmarks popup with `Ctrl+B` (Windows/Linux) or `Cmd+B` (Mac).
