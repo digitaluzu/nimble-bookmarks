@@ -6,7 +6,7 @@ window.addEventListener('load', init, false);
 function init() {
     // i18n of text strings
     $('extName').innerHTML = chrome.i18n.getMessage('extName');
-    $('version').innerHTML = chrome.app.getDetails().version; // undocumented method!
+    $('version').innerHTML = 'v' + chrome.app.getDetails().version; // undocumented method!
     $('options').innerHTML = chrome.i18n.getMessage('options');
     $('generalSettings').innerHTML = chrome.i18n.getMessage('generalSettings');
     $('optionClickNewTab').innerHTML = chrome.i18n.getMessage('optionClickNewTab');
