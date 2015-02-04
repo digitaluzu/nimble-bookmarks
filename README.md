@@ -11,6 +11,8 @@ A Chrome extension for quick and compact access to your bookmarks.
 <img src="https://raw.github.com/digitaluzu/nimble-bookmarks/screenshots/screenshot_0.png"/>
 </p>
 
+:star: Get it in the [Chrome Web Store](https://chrome.google.com/webstore/detail/nimble-bookmarks/mmfbkidhlepkdlpnepfimdhnojafkcog) :star:
+
 # Usage
 ### Basic Navigation
 * Open the Nimble Bookmarks popup with `Ctrl+B` (Windows/Linux) or `Cmd+B` (Mac).
