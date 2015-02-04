@@ -222,21 +222,10 @@ function init() {
 
         refreshHotkeyText();
 
-        var focusID = localStorage.focusID;
-        if (typeof focusID !== 'undefined' && focusID !== null) {
-            var focusEl = $('neat-tree-item-' + focusID);
-            if (focusEl) {
-                var oriOverflow = $tree.style.overflow;
-                $tree.style.overflow = 'hidden';
-                focusEl.style.width = '100%';
-                focusEl.firstElementChild.addClass('focus');
-                setTimeout(function() {
-                    $tree.style.overflow = oriOverflow;
-                }, 1);
-                setTimeout(function() {
-                    localStorage.removeItem('focusID');
-                }, 4000);
-            }
+        // Automatically give focus to the first folder.
+        var firstChild = $tree.querySelector('li:first-child>span');
+        if (firstChild) {
+            firstChild.focus();
         }
 
         setTimeout(adaptBookmarkTooltips, 100);
@@ -248,18 +237,6 @@ function init() {
     $tree.addEventListener('scroll', function() {
         localStorage.scrollTop = $tree.scrollTop; // store scroll position at each scroll event
     });
-    $tree.addEventListener('focus', function(e) {
-        var el = e.target;
-        var tagName = el.tagName;
-        var focusEl = $tree.querySelector('.focus');
-        if (focusEl) focusEl.removeClass('focus');
-        if (tagName == 'A' || tagName == 'SPAN') {
-            var id = el.parentNode.id.replace('neat-tree-item-', '');
-            localStorage.focusID = id;
-        } else {
-            localStorage.focusID = null;
-        }
-    }, true);
     var closeUnusedFolders = localStorage.closeUnusedFolders;
     $tree.addEventListener('click', function(e) {
         if (e.button !== 0) return;
@@ -927,7 +904,7 @@ function init() {
     // Keyboard navigation
     var treeKeyDown = function(e) {
         var item = document.activeElement;
-        if (!/^(a|span)$/i.test(item.tagName)) item = $tree.querySelector('.focus') || $tree.querySelector('li:first-child>span');
+        if (!/^(a|span)$/i.test(item.tagName)) item = $tree.querySelector('li:first-child>span');
         var li = item.parentNode;
         var keyCode = e.keyCode;
         var metaKey = e.metaKey;
@@ -1039,7 +1016,7 @@ function init() {
 
     var treeKeyUp = function(e) {
         var item = document.activeElement;
-        if (!/^(a|span)$/i.test(item.tagName)) item = $tree.querySelector('.focus') || $tree.querySelector('li:first-child>span');
+        if (!/^(a|span)$/i.test(item.tagName)) item = $tree.querySelector('li:first-child>span');
         var li = item.parentNode;
         switch (e.keyCode) {
             case 8: // backspace
