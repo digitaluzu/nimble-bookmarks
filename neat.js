@@ -1006,9 +1006,17 @@ function init() {
                 var id = getHotkeyId(key);
                 if (id) {
                     var li = $('neat-tree-item-' + id);
-                    event = document.createEvent('MouseEvents');
-                    event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, e.ctrlKey, false, e.shiftKey, e.metaKey, 0, null);
-                    li.firstElementChild.dispatchEvent(event);
+
+                    // Due to Chrome bookmark sync bug, it's possible that the element
+                    // for this bookmark id doesn't actually exist anymore.
+                    if (li === null) {
+                        // Delete hotkey for this id to prevent invalid ids from remaining.
+                        unsetHotkey(id);
+                    } else {
+                        event = document.createEvent('MouseEvents');
+                        event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, e.ctrlKey, false, e.shiftKey, e.metaKey, 0, null);
+                        li.firstElementChild.dispatchEvent(event);
+                    }
                 }
         }
     };
