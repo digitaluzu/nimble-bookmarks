@@ -45,6 +45,7 @@ function init() {
         'bookmark-new-window': 'openNewWindow',
         'bookmark-new-incognito-window': 'openIncognitoWindow',
         'bookmark-edit': 'edit',
+        'bookmark-update': 'updateEllipsis',
         'bookmark-delete': 'deleteEllipsis',
         'bookmark-set-hotkey': 'setHotkeyEllipsis',
         'bookmark-unset-hotkey': 'unsetHotkey',
@@ -582,6 +583,33 @@ function init() {
             });
         },
 
+        updateBookmark: function(id) {
+            chrome.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
+                var new_url = tabs[0].url;
+                var li = $('neat-tree-item-' + id);
+                var bookmarkName = '<cite>' + li.textContent.trim() + '</cite>';
+                var dialog = _m('confirmUpdateBookmark', [bookmarkName, new_url]);
+                ConfirmDialog.open({
+                    dialog: dialog,
+                    button1: '<strong>' + _m('update') + '</strong>',
+                    button2: _m('nope'),
+                    fn1: function() {
+                        chrome.bookmarks.update(id, { url: new_url }, function(n) {
+                            var title = n.title;
+                            var url = n.url;
+                            var css = li.querySelector('a').style.cssText;
+                            li.innerHTML = generateBookmarkHTML(title, url, 'style="' + css + '"');
+                            li.firstElementChild.focus();
+                        });
+                    },
+                    fn2: function() {
+                        li.querySelector('a, span').focus();
+                    }
+                });
+
+            });
+        },
+
         deleteBookmark: function(id) {
             var li = $('neat-tree-item-' + id);
 
@@ -827,6 +855,11 @@ function init() {
                 var li = currentContext.parentNode;
                 var id = li.id.replace(/(neat\-tree)\-item\-/, '');
                 actions.editBookmarkFolder(id);
+                break;
+            case 'bookmark-update':
+                var li = currentContext.parentNode;
+                var id = li.id.replace(/(neat\-tree)\-item\-/, '');
+                actions.updateBookmark(id);
                 break;
             case 'bookmark-delete':
                 var li = currentContext.parentNode;
