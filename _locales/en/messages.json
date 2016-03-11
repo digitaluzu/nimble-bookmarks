@@ -78,6 +78,17 @@
             }
         }
     },
+    "confirmUpdateBookmark": {
+        "message": "Are you sure you want to update bookmark $bookmarkName$ to $newURL$?",
+        "placeholders": {
+            "bookmarkName": {
+                "content": "$1"
+            },
+            "newURL": {
+                "content": "$2"
+            }
+        }
+    },
     "deleteEllipsis": {
         "message": "Delete..."
     },
@@ -104,6 +115,12 @@
     },
     "unsetHotkey": {
         "message": "Unset Hotkey"
+    },
+    "updateEllipsis": {
+        "message": "Update..."
+    },
+    "update": {
+        "message": "Update"
     },
     "errorOccured": {
         "message": "Oops, an error occurred."
